@@ -41,12 +41,12 @@ int sm2_sign_data_test(const unsigned char *message,
 	                       0xef, 0x3c, 0xc1, 0xfa, 0x3c, 0xdb, 0xe4, 0xce,
 	                       0x6d, 0x54, 0xb8, 0x0d, 0xea, 0xc1, 0xbc, 0x21};
 
-	if ( error_code = sm3_digest_with_preprocess(message,
+	if ( (error_code = sm3_digest_with_preprocess(message,
 	                                             message_len,
 						     id,
 						     id_len,
 						     pub_key,
-						     digest) )
+						     digest)) )
 	{
 	   return error_code;
 	}
@@ -217,12 +217,12 @@ int sm2_sign_data(const unsigned char *message,
 	const EC_POINT *generator;
 	EC_POINT *k_G = NULL;
 
-	if ( error_code = sm3_digest_with_preprocess(message,
+	if ( (error_code = sm3_digest_with_preprocess(message,
 	                                             message_len,
 						     id,
 						     id_len,
 						     pub_key,
-						     digest) )
+						     digest)) )
 	{
 	   return error_code;
 	}
@@ -393,12 +393,12 @@ int sm2_verify_sig(const unsigned char *message,
 	const EC_POINT *generator;
 	EC_POINT *ec_pub_key_pt = NULL, *ec_pt1 = NULL, *ec_pt2 = NULL;
 
-	if ( error_code = sm3_digest_with_preprocess(message,
+	if ( (error_code = sm3_digest_with_preprocess(message,
 	                                             message_len,
 						     id,
 						     id_len,
 						     pub_key,
-						     digest) )
+						     digest)) )
 	{
 	   return error_code;
 	}

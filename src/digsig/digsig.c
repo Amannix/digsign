@@ -54,7 +54,7 @@ static int read_shdr_table(void)
 
 	if ((shdrs = realloc(shdrs, (ehdr.e_shnum+1) * sizeof *shdrs)) == FALSE)
 		return err("内存分配失败！\n");
-	printf ("读取节头表 %x \n",(unsigned int)shdrs);
+	//printf ("读取节头表 %u \n",(unsigned int)shdrs);
 	if (elfrw_read_Shdrs(thefile, shdrs, ehdr.e_shnum) != ehdr.e_shnum){
 		realloc(shdrs, 0);//释放内存
 		return ferr("missing or incomplete program section header table.");
@@ -68,19 +68,18 @@ static int read_shdr_table(void)
 
 static int show_shdr_table(void)
 {
-	unsigned char index = shdrs;
-	for (int i = 0;i < ehdr.e_shnum; ++i){
+	/*for (int i = 0;i < ehdr.e_shnum; ++i){
 		printf ("%d:=======================\n",i);
 		printf ("%d\n",shdrs[i].sh_type);
 		printf ("%d\n",shdrs[i].sh_flags);
 		printf ("%d\n",shdrs[i].sh_addr);
-		printf ("%d\n",shdrs[i].sh_offset);
+		printf ("%x\n",shdrs[i].sh_offset);
 		printf ("%d\n",shdrs[i].sh_size);
 		printf ("%d\n",shdrs[i].sh_link);
 		printf ("%d\n",shdrs[i].sh_info);
 		printf ("%d\n",shdrs[i].sh_addralign);
 		printf ("%d\n",shdrs[i].sh_entsize);
-	}
+	}*/
 	return 0;
 }
 
@@ -148,7 +147,7 @@ static int modify_headers(void)
 static int analy_shstrtable(void)
 {
 	shstrndx = ehdr.e_shstrndx;
-	if (shstrndx < 0 || shstrndx > ehdr.e_shnum){
+	if (shstrndx > ehdr.e_shnum){
 		return err("解析节名字表索引失败!\n");
 	}
 
@@ -244,9 +243,6 @@ static int commit_changes(void)
 		temp = realloc(temp, 0);
 	}
 	return TRUE;
-
-warning:
-	return err("ELF file may have been corrupted!");
 }
 
 static int modify_shdrs(void)
@@ -254,17 +250,17 @@ static int modify_shdrs(void)
 	//如果modify_headrs比这个函数更早调用就必须-1否则不用
 	int count = ehdr.e_shnum-1;
 	int i = 0;
-	int shdrs_end_off = ehdr.e_shoff + (count*ehdr.e_shentsize) - ELF_SIG_SH_TAB_ADD_OFF;
+	unsigned int shdrs_end_off = ehdr.e_shoff + (count*ehdr.e_shentsize) - ELF_SIG_SH_TAB_ADD_OFF;
 
 	for (i = 0;i < count; ++i){
 		if (shdrs[i].sh_offset > shstroff){
 			shdrs[i].sh_offset += ELF_SIG_SH_TAB_ADD_OFF;
 		}
-		printf ("off %x %x\n",shdrs[i].sh_offset, shdrs_end_off);
+		printf ("off %lu %lu\n",(unsigned long int)shdrs[i].sh_offset, (unsigned long int)shdrs_end_off);
 		if (shdrs[i].sh_offset > shdrs_end_off){
 			shdrs[i].sh_offset += ehdr.e_shentsize;
 		}
-		if (i == shstrndx){
+		if ((unsigned int)i == shstrndx){
 			apped_shdr.sh_name = shdrs[i].sh_size;
 			shdrs[i].sh_size += ELF_SIG_SH_TAB_ADD_OFF;
 			shstrsize += ELF_SIG_SH_TAB_ADD_OFF;
@@ -280,7 +276,7 @@ static int modify_shdrs(void)
 	apped_shdr.sh_addralign = 1;
 	apped_shdr.sh_entsize = 0;
 	memcpy(&shdrs[i],&apped_shdr,sizeof(apped_shdr));
-	printf ("%x %x - %x\n",sizeof (shdrs), sizeof(apped_shdr),thefile);
+	printf ("%lu %lu\n",sizeof (shdrs), sizeof(apped_shdr));
 	fseek(thefile, ehdr.e_shoff, SEEK_SET);
 	if (elfrw_write_Shdrs(thefile, shdrs, count+1) != count+1){
 		return ferr("修改节头表失败!");
@@ -290,7 +286,6 @@ static int modify_shdrs(void)
 
 static int insert_sh_sig(void)
 {
-	int i = 0;
 	sh_sig_off = pre_shdrs_off + ELF_SIG_SH_TAB_ADD_OFF;//计算秘钥节的偏移量
 
 	fseek(thefile, 0, SEEK_END);
@@ -309,8 +304,8 @@ static int get_text_data(void)
 	char *sh_name_temp = realloc(0, shdrs[shstrndx].sh_size);
 	int count = ehdr.e_shnum;
 	fpos_t ps;
-	memset(sh_name_temp, 0,sizeof sh_name_temp);
-	printf ("==========%x %x\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
+	memset(sh_name_temp, 0, shdrs[shstrndx].sh_size);
+	printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
 	if (sh_name_temp == NULL || count == -1){
 		return err("elf_sm2_sign err");
 	}
@@ -318,7 +313,7 @@ static int get_text_data(void)
 	fgetpos(thefile, &ps);
 	fseek(thefile, shdrs[shstrndx].sh_offset, SEEK_SET);
 
-	int res = fread(sh_name_temp, shdrs[shstrndx].sh_size, 1, thefile);
+	fread(sh_name_temp, shdrs[shstrndx].sh_size, 1, thefile);
 	/*for (i = 0;i < shdrs[shstrndx].sh_size; ++i){
 		printf ("%x ", *(sh_name_temp+i));
 	}*/
@@ -333,10 +328,10 @@ static int get_text_data(void)
 				printf ("内存分配失败");
 				goto er;
 			}
-			printf ("%x\n",shdrs[i].sh_offset);
+			printf ("%lx\n",shdrs[i].sh_offset);
 			fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
 			fread(elf_text_data, shdrs[i].sh_size, 1, thefile);
-			printf ("%x\n",shdrs[i].sh_size);
+			printf ("%lx\n",shdrs[i].sh_size);
 			elf_text_data_len = shdrs[i].sh_size;
 			/*for (int j = 0;j < shdrs[i].sh_size; ++j){
 				printf ("0x%02x",elf_text_data[j]);
@@ -358,22 +353,22 @@ static int elf_text_sign(void)
 {
     int error_code,i;
 	//SM2_SIGNATURE_STRUCT sm2_sig;
-	
-	if (error_code = sm2_create_key_pair(&key_pair) ){
+	i = 0;
+	if ((error_code = sm2_create_key_pair(&key_pair)) ){
 		printf ("SM2密钥创建失败\n");
 		return FALSE;
 	}
 	printf ("SM2密钥创建成功\n");
-	printf("Private key:\n");
+	/*printf("Private key:\n");
 	for (i = 0; i < sizeof(key_pair.pri_key); i++){
 	   printf("0x%x  ", key_pair.pri_key[i]);
 	}
 	printf("\n\n");
-	printf("Public key:\n");
+	printf("Public key:\n");*/
 	FILE *hex = fopen("./sig.key", "rb+");
-	for (i = 0; i < sizeof(key_pair.pub_key); i++){
+/*	for (i = 0; i < sizeof(key_pair.pub_key); i++){
 	   printf("0x%x  ", key_pair.pub_key[i]);
-	}
+	}*/
 	if (hex != NULL){
 		printf ("write hex\n");
 		fwrite(key_pair.pub_key, sizeof(key_pair.pub_key), 1, hex);
@@ -381,13 +376,13 @@ static int elf_text_sign(void)
 	}
 	printf ("\n\n");
 	printf ("len = %d",elf_text_data_len);
-	if ( error_code = sm2_sign_data(elf_text_data,
+	if ( (error_code = sm2_sign_data(elf_text_data,
 		                        elf_text_data_len,
 								user_id,
 								user_id_len,
 								key_pair.pub_key,
 								key_pair.pri_key,
-								&sm2_sig) ){
+								&sm2_sig)) ){
 	   printf("Create SM2 signature failed!\n");
 	   return FALSE;
 	}
@@ -423,11 +418,6 @@ static int elf_text_sign(void)
 
 }
 
-static int elf_text_verify(void)
-{
-
-}
-
 /* main() loops over the cmdline arguments, leaving all the real work
  * to the other functions.
  */
@@ -442,7 +432,7 @@ int main(int argc, char *argv[])
 	}
 
 	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
-	thefile = fopen("./010editorback","rb+");
+	thefile = fopen("./hello","rb+");
 	
 	if (thefile == NULL){
 		err(strerror(errno));

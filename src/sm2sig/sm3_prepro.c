@@ -91,10 +91,10 @@ int sm3_digest_with_preprocess(const unsigned char *message,
 	EVP_MD_CTX *md_ctx;
         const EVP_MD *md;
 	
-	if ( error_code = sm3_digest_z(id,
+	if ( (error_code = sm3_digest_z(id,
 	                               id_len,
 				       pub_key,
-				       z_digest) )
+				       z_digest)) )
 	{
 #ifdef _DEBUG
            printf("Compute SM3 digest of leading data Z failed at %s, line %d!\n", __FILE__, __LINE__);

@@ -5,7 +5,7 @@ VPATH := ../../include/sm2sig ../../lib
 CC = gcc
 CFLAGS = -Wall -Wextra -O3 -g -I../../include/sm2sig
 
-LIBOBJS = sm2_genkey.o sm2_sig.o sm3_prepro.o test_sm2_sign_and_verify.o
+LIBOBJS = sm2_genkey.o sm2_sig.o sm3_prepro.o 
 #test_sm2_sign_and_verify.o
 
 libsm2sig.a: clean $(LIBOBJS)

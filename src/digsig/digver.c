@@ -54,7 +54,6 @@ static int read_shdr_table(void)
 
 	if ((shdrs = realloc(shdrs, (ehdr.e_shnum+1) * sizeof *shdrs)) == FALSE)
 		return err("内存分配失败！\n");
-	printf ("读取节头表 %x \n",(unsigned int)shdrs);
 	if (elfrw_read_Shdrs(thefile, shdrs, ehdr.e_shnum) != ehdr.e_shnum){
 		realloc(shdrs, 0);//释放内存
 		return ferr("missing or incomplete program section header table.");
@@ -68,7 +67,7 @@ static int read_shdr_table(void)
 
 static int show_shdr_table(void)
 {
-	unsigned char index = shdrs;
+	/*unsigned char index = shdrs;
 	for (int i = 0;i < ehdr.e_shnum; ++i){
 		printf ("%d:=======================\n",i);
 		printf ("%d\n",shdrs[i].sh_type);
@@ -80,7 +79,7 @@ static int show_shdr_table(void)
 		printf ("%d\n",shdrs[i].sh_info);
 		printf ("%d\n",shdrs[i].sh_addralign);
 		printf ("%d\n",shdrs[i].sh_entsize);
-	}
+	}*/
 	return 0;
 }
 
@@ -130,8 +129,8 @@ static int get_text_data(void)
 	char *sh_name_temp = realloc(0, shdrs[shstrndx].sh_size);
 	int count = ehdr.e_shnum;
 	fpos_t ps;
-	memset(sh_name_temp, 0,sizeof sh_name_temp);
-	printf ("==========%x %x\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
+	memset(sh_name_temp, 0, shdrs[shstrndx].sh_size);
+	printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
 	if (sh_name_temp == NULL || count == -1){
 		return err("elf_sm2_sign err");
 	}
@@ -139,7 +138,7 @@ static int get_text_data(void)
 	fgetpos(thefile, &ps);
 	fseek(thefile, shdrs[shstrndx].sh_offset, SEEK_SET);
 
-	int res = fread(sh_name_temp, shdrs[shstrndx].sh_size, 1, thefile);
+	fread(sh_name_temp, shdrs[shstrndx].sh_size, 1, thefile);
 	/*for (i = 0;i < shdrs[shstrndx].sh_size; ++i){
 		printf ("%x ", *(sh_name_temp+i));
 	}*/
@@ -154,14 +153,15 @@ static int get_text_data(void)
 				printf ("内存分配失败");
 				goto er;
 			}
-			printf ("%x\n",shdrs[i].sh_offset);
+			printf ("%lx\n",shdrs[i].sh_offset);
 			fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
 			fread(elf_text_data, shdrs[i].sh_size, 1, thefile);
-			printf ("%x\n",shdrs[i].sh_size);
+			printf ("%lx\n",shdrs[i].sh_size);
 			elf_text_data_len = shdrs[i].sh_size;
-			/*for (int j = 0;j < shdrs[i].sh_size; ++j){
+			printf ("size = = = == = %x\n",elf_text_data_len);
+			for (unsigned int j = 0;j < shdrs[i].sh_size; ++j){
 				printf ("0x%02x",elf_text_data[j]);
-			}*/
+			}
 			break;
 		}
 	}
@@ -177,7 +177,7 @@ er:
 
 static int elf_text_verify(void)
 {
-
+	return TRUE;
 }
 
 /* main() loops over the cmdline arguments, leaving all the real work
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 	}
 
 	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
-	thefile = fopen("./010editorback","rb+");
+	thefile = fopen("./hello","rb+");
 	
 	if (thefile == NULL){
 		err(strerror(errno));
@@ -217,11 +217,6 @@ int main(int argc, char *argv[])
 
 	//5. 获取text节数据
 	if (get_text_data() == FALSE){
-		goto er;
-	}
-
-	//6. 签名并获取密钥
-	if(elf_text_sign() == FALSE){
 		goto er;
 	}
 

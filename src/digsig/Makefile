@@ -1,11 +1,14 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Ielfrw -g -I../../include -L../../lib
+CFLAGS = -Wall -Wextra -Wno-unused-result -Ielfrw -g -I../../include -L../../lib
 
-all: clean hello digsig
+all: clean hello digsig digver
+
+digver:elfrw/libelfrw.a sm2sig/libsm2sig.a
+	$(CC) $(CFLAGS) -o digver digver.c -lelfrw -lsm2sig -lssl -lcrypto -lpthread -ldl
 
 digsig:elfrw/libelfrw.a sm2sig/libsm2sig.a
-	$(CC) $(CFLAGS) digsig.c -lelfrw -lsm2sig -lssl -lcrypto -lpthread -ldl
+	$(CC) $(CFLAGS) -o digsig digsig.c -lelfrw -lsm2sig -lssl -lcrypto -lpthread -ldl
 hello:
 	$(CC) -o hello test.c
 

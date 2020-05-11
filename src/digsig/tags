@@ -9,19 +9,28 @@ CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Ielfrw -g -I..\/..\/include -L..\/..\/
 FALSE	sstrip.c	14;"	d	file:
 TRUE	sstrip.c	13;"	d	file:
 analy_shstrtable	digsig.c	/^static int analy_shstrtable(void)$/;"	f	file:
+analy_shstrtable	digver.c	/^static int analy_shstrtable(void)$/;"	f	file:
 apped_shdr	sstrip.c	/^Elf64_Shdr apped_shdr;$/;"	v
 commit_changes	digsig.c	/^static int commit_changes(void)$/;"	f	file:
 commitchanges	sstrip.c	/^static int commitchanges(void)$/;"	f	file:
 dozerotrunc	sstrip.c	/^static int dozerotrunc = FALSE;$/;"	v	file:
 ehdr	sstrip.c	/^static Elf64_Ehdr   ehdr;		\/* the current file's ELF header *\/$/;"	v	file:
+elf_text_sign	digsig.c	/^static int elf_text_sign(void)$/;"	f	file:
+elf_text_verify	digsig.c	/^static int elf_text_verify(void)$/;"	f	file:
+elf_text_verify	digver.c	/^static int elf_text_verify(void)$/;"	f	file:
 err	digsig.c	/^static int err(char const *errmsg)$/;"	f	file:
+err	digver.c	/^static int err(char const *errmsg)$/;"	f	file:
 err	sstrip.c	/^static int err(char const *errmsg)$/;"	f	file:
 ferr	sstrip.c	66;"	d	file:
 get_memory_size	digsig.c	/^static int get_memory_size(void)$/;"	f	file:
+get_memory_size	digver.c	/^static int get_memory_size(void)$/;"	f	file:
+get_text_data	digsig.c	/^static int get_text_data(void)$/;"	f	file:
+get_text_data	digver.c	/^static int get_text_data(void)$/;"	f	file:
 getmemorysize	sstrip.c	/^static int getmemorysize(void)$/;"	f	file:
 insert_sh_sig	digsig.c	/^static int insert_sh_sig(void)$/;"	f	file:
 insert_shname	digsig.c	/^static int insert_shname(void)$/;"	f	file:
 main	digsig.c	/^int main(int argc, char *argv[])$/;"	f
+main	digver.c	/^int main(int argc, char *argv[])$/;"	f
 main	fseektest.c	/^int main ()$/;"	f
 main	showbyte.c	/^int main ()$/;"	f
 main	sstrip.c	/^int main(int argc, char *argv[])$/;"	f
@@ -32,11 +41,14 @@ modifyheaders	sstrip.c	/^static int modifyheaders(void)$/;"	f	file:
 newsize	sstrip.c	/^unsigned long       newsize;		\/* the proposed new file size *\/$/;"	v
 phdrs	sstrip.c	/^static Elf64_Phdr  *phdrs;		\/* the program segment header table *\/$/;"	v	file:
 read_elf_header	digsig.c	/^static int read_elf_header(void)$/;"	f	file:
+read_elf_header	digver.c	/^static int read_elf_header(void)$/;"	f	file:
 read_phdr_table	digsig.c	/^static int read_phdr_table(void)$/;"	f	file:
+read_phdr_table	digver.c	/^static int read_phdr_table(void)$/;"	f	file:
 read_shdr_table	digsig.c	/^static int read_shdr_table(void)$/;"	f	file:
+read_shdr_table	digver.c	/^static int read_shdr_table(void)$/;"	f	file:
 readelfheader	sstrip.c	/^static int readelfheader(void)$/;"	f	file:
 readphdrtable	sstrip.c	/^static int readphdrtable(void)$/;"	f	file:
-show_shdr_table	digsig.c	/^static int show_shdr_table(void)$/;"	f	file:
+show_shdr_table	digver.c	/^static int show_shdr_table(void)$/;"	f	file:
 thefile	sstrip.c	/^static FILE        *thefile;		\/* the currently open file handle *\/$/;"	v	file:
 thefilename	sstrip.c	/^static char const  *thefilename;	\/* the name of the current file *\/$/;"	v	file:
 theprogram	sstrip.c	/^static char const *theprogram;$/;"	v	file:
