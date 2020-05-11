@@ -1,0 +1,129 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -O3 -g$/;"	m
+ELF_SIG_SH_BUFF_SIZE	sigtype.h	16;"	d
+ELF_SIG_SH_NAME	sigtype.h	11;"	d
+ELF_SIG_SH_NAME_SIZE	sigtype.h	12;"	d
+ELF_SIG_SH_SIZE	sigtype.h	13;"	d
+ELF_SIG_SH_TAB_ADD_OFF	sigtype.h	15;"	d
+FALSE	digsig.h	15;"	d
+LIBOBJS	Makefile	/^LIBOBJS = elfrw.o elfrw_dyn.o elfrw_ehdr.o elfrw_phdr.o elfrw_rel.o \\$/;"	m
+TRUE	digsig.h	14;"	d
+VPATH	Makefile	/^VPATH := ..\/include$/;"	m
+_DIGSIG_H	digsig.h	9;"	d
+_SIGTYPE_H	sigtype.h	9;"	d
+_elfrw_current_class	elfrw.c	/^unsigned char _elfrw_current_class;$/;"	v
+_elfrw_current_data	elfrw.c	/^unsigned char _elfrw_current_data;$/;"	v
+_elfrw_current_version	elfrw.c	/^unsigned char _elfrw_current_version;$/;"	v
+_elfrw_h_	elfrw.h	8;"	d
+_elfrw_int_h_	elfrw_int.h	8;"	d
+_elfrw_native_data	elfrw.c	/^unsigned char _elfrw_native_data;$/;"	v
+apped_shdr	digsig.h	/^static Elf64_Shdr apped_shdr; \/*新增的秘钥节*\/$/;"	v
+curr_file_size	digsig.h	/^static int curr_file_size = 0; \/*维护初始文件大小*\/$/;"	v
+dozerotrunc	digsig.h	/^static int dozerotrunc = FALSE;$/;"	v
+ehdr	digsig.h	/^static Elf64_Ehdr   ehdr;		\/* the current file's ELF header *\/$/;"	v
+elfrw_getsettings	elfrw.c	/^void elfrw_getsettings(unsigned char *class, unsigned char *data,$/;"	f
+elfrw_initialize_direct	elfrw.c	/^int elfrw_initialize_direct(unsigned char class, unsigned char data,$/;"	f
+elfrw_initialize_ident	elfrw.c	/^int elfrw_initialize_ident(unsigned char const *ident)$/;"	f
+elfrw_read_Addr	elfrw.c	/^int elfrw_read_Addr(FILE *fp, Elf64_Addr *in)$/;"	f
+elfrw_read_Dyn	elfrw_dyn.c	/^int elfrw_read_Dyn(FILE *fp, Elf64_Dyn *in)$/;"	f
+elfrw_read_Dyns	elfrw_dyn.c	/^int elfrw_read_Dyns(FILE *fp, Elf64_Dyn *in, int count)$/;"	f
+elfrw_read_Ehdr	elfrw_ehdr.c	/^int elfrw_read_Ehdr(FILE *fp, Elf64_Ehdr *in)$/;"	f
+elfrw_read_Half	elfrw.c	/^int elfrw_read_Half(FILE *fp, Elf64_Half *in)$/;"	f
+elfrw_read_Off	elfrw.c	/^int elfrw_read_Off(FILE *fp, Elf64_Off *in)$/;"	f
+elfrw_read_Phdr	elfrw_phdr.c	/^int elfrw_read_Phdr(FILE *fp, Elf64_Phdr *in)$/;"	f
+elfrw_read_Phdrs	elfrw_phdr.c	/^int elfrw_read_Phdrs(FILE *fp, Elf64_Phdr *in, int count)$/;"	f
+elfrw_read_Rel	elfrw_rel.c	/^int elfrw_read_Rel(FILE *fp, Elf64_Rel *in)$/;"	f
+elfrw_read_Rela	elfrw_rel.c	/^int elfrw_read_Rela(FILE *fp, Elf64_Rela *in)$/;"	f
+elfrw_read_Relas	elfrw_rel.c	/^int elfrw_read_Relas(FILE *fp, Elf64_Rela *in, int count)$/;"	f
+elfrw_read_Rels	elfrw_rel.c	/^int elfrw_read_Rels(FILE *fp, Elf64_Rel *in, int count)$/;"	f
+elfrw_read_Shdr	elfrw_shdr.c	/^int elfrw_read_Shdr(FILE *fp, Elf64_Shdr *in)$/;"	f
+elfrw_read_Shdrs	elfrw_shdr.c	/^int elfrw_read_Shdrs(FILE *fp, Elf64_Shdr *in, int count)$/;"	f
+elfrw_read_Sword	elfrw.c	/^int elfrw_read_Sword(FILE *fp, Elf64_Sword *in)$/;"	f
+elfrw_read_Sxword	elfrw.c	/^int elfrw_read_Sxword(FILE *fp, Elf64_Sxword *in)$/;"	f
+elfrw_read_Sym	elfrw_sym.c	/^int elfrw_read_Sym(FILE *fp, Elf64_Sym *in)$/;"	f
+elfrw_read_Syminfo	elfrw_sym.c	/^int elfrw_read_Syminfo(FILE *fp, Elf64_Syminfo *in)$/;"	f
+elfrw_read_Syminfos	elfrw_sym.c	/^int elfrw_read_Syminfos(FILE *fp, Elf64_Syminfo *in, int count)$/;"	f
+elfrw_read_Syms	elfrw_sym.c	/^int elfrw_read_Syms(FILE *fp, Elf64_Sym *in, int count)$/;"	f
+elfrw_read_Verdaux	elfrw_ver.c	/^int elfrw_read_Verdaux(FILE *fp, Elf64_Verdaux *in)$/;"	f
+elfrw_read_Verdef	elfrw_ver.c	/^int elfrw_read_Verdef(FILE *fp, Elf64_Verdef *in)$/;"	f
+elfrw_read_Vernaux	elfrw_ver.c	/^int elfrw_read_Vernaux(FILE *fp, Elf64_Vernaux *in)$/;"	f
+elfrw_read_Verneed	elfrw_ver.c	/^int elfrw_read_Verneed(FILE *fp, Elf64_Verneed *in)$/;"	f
+elfrw_read_Versym	elfrw.c	/^int elfrw_read_Versym(FILE *fp, Elf64_Versym *in)$/;"	f
+elfrw_read_Word	elfrw.c	/^int elfrw_read_Word(FILE *fp, Elf64_Word *in)$/;"	f
+elfrw_read_Xword	elfrw.c	/^int elfrw_read_Xword(FILE *fp, Elf64_Xword *in)$/;"	f
+elfrw_write_Addr	elfrw.c	/^int elfrw_write_Addr(FILE *fp, Elf64_Addr const *out)$/;"	f
+elfrw_write_Dyn	elfrw_dyn.c	/^int elfrw_write_Dyn(FILE *fp, Elf64_Dyn const *out)$/;"	f
+elfrw_write_Dyns	elfrw_dyn.c	/^int elfrw_write_Dyns(FILE *fp, Elf64_Dyn const *out, int count)$/;"	f
+elfrw_write_Ehdr	elfrw_ehdr.c	/^int elfrw_write_Ehdr(FILE *fp, Elf64_Ehdr const *out)$/;"	f
+elfrw_write_Half	elfrw.c	/^int elfrw_write_Half(FILE *fp, Elf64_Half const *out)$/;"	f
+elfrw_write_Off	elfrw.c	/^int elfrw_write_Off(FILE *fp, Elf64_Off const *out)$/;"	f
+elfrw_write_Phdr	elfrw_phdr.c	/^int elfrw_write_Phdr(FILE *fp, Elf64_Phdr const *out)$/;"	f
+elfrw_write_Phdrs	elfrw_phdr.c	/^int elfrw_write_Phdrs(FILE *fp, Elf64_Phdr const *out, int count)$/;"	f
+elfrw_write_Rel	elfrw_rel.c	/^int elfrw_write_Rel(FILE *fp, Elf64_Rel const *out)$/;"	f
+elfrw_write_Rela	elfrw_rel.c	/^int elfrw_write_Rela(FILE *fp, Elf64_Rela const *out)$/;"	f
+elfrw_write_Relas	elfrw_rel.c	/^int elfrw_write_Relas(FILE *fp, Elf64_Rela const *out, int count)$/;"	f
+elfrw_write_Rels	elfrw_rel.c	/^int elfrw_write_Rels(FILE *fp, Elf64_Rel const *out, int count)$/;"	f
+elfrw_write_Shdr	elfrw_shdr.c	/^int elfrw_write_Shdr(FILE *fp, Elf64_Shdr const *out)$/;"	f
+elfrw_write_Shdrs	elfrw_shdr.c	/^int elfrw_write_Shdrs(FILE *fp, Elf64_Shdr const *out, int count)$/;"	f
+elfrw_write_Sword	elfrw.c	/^int elfrw_write_Sword(FILE *fp, Elf64_Sword const *out)$/;"	f
+elfrw_write_Sxword	elfrw.c	/^int elfrw_write_Sxword(FILE *fp, Elf64_Sxword const *out)$/;"	f
+elfrw_write_Sym	elfrw_sym.c	/^int elfrw_write_Sym(FILE *fp, Elf64_Sym const *out)$/;"	f
+elfrw_write_Syminfo	elfrw_sym.c	/^int elfrw_write_Syminfo(FILE *fp, Elf64_Syminfo const *out)$/;"	f
+elfrw_write_Syminfos	elfrw_sym.c	/^int elfrw_write_Syminfos(FILE *fp, Elf64_Syminfo const *out, int count)$/;"	f
+elfrw_write_Syms	elfrw_sym.c	/^int elfrw_write_Syms(FILE *fp, Elf64_Sym const *out, int count)$/;"	f
+elfrw_write_Verdaux	elfrw_ver.c	/^int elfrw_write_Verdaux(FILE *fp, Elf64_Verdaux const *out)$/;"	f
+elfrw_write_Verdef	elfrw_ver.c	/^int elfrw_write_Verdef(FILE *fp, Elf64_Verdef const *out)$/;"	f
+elfrw_write_Vernaux	elfrw_ver.c	/^int elfrw_write_Vernaux(FILE *fp, Elf64_Vernaux const *out)$/;"	f
+elfrw_write_Verneed	elfrw_ver.c	/^int elfrw_write_Verneed(FILE *fp, Elf64_Verneed const *out)$/;"	f
+elfrw_write_Versym	elfrw.c	/^int elfrw_write_Versym(FILE *fp, Elf64_Versym const *out)$/;"	f
+elfrw_write_Word	elfrw.c	/^int elfrw_write_Word(FILE *fp, Elf64_Word const *out)$/;"	f
+elfrw_write_Xword	elfrw.c	/^int elfrw_write_Xword(FILE *fp, Elf64_Xword const *out)$/;"	f
+ferr	digsig.h	60;"	d
+is64bit_form	elfrw_int.h	24;"	d
+native_form	elfrw_int.h	23;"	d
+newsize	digsig.h	/^static unsigned long       newsize;		\/* the proposed new file size *\/$/;"	v
+now_shdrs_off	digsig.h	/^static int now_shdrs_off;\/\/修改后的节头表偏移量$/;"	v
+phdrs	digsig.h	/^static Elf64_Phdr  *phdrs;		\/* the program segment header table *\/$/;"	v
+pre_shdrs_off	digsig.h	/^static int pre_shdrs_off;\/\/修改文件前的节头表偏移量$/;"	v
+rev2	elfrw_int.h	/^static inline unsigned short rev2(unsigned short in)$/;"	f
+rev4	elfrw_int.h	/^static inline unsigned int rev4(unsigned int in)$/;"	f
+rev8	elfrw_int.h	/^static inline unsigned long long rev8(unsigned long long in)$/;"	f
+rev_32addr	elfrw_int.h	68;"	d
+rev_32half	elfrw_int.h	65;"	d
+rev_32off	elfrw_int.h	69;"	d
+rev_32word	elfrw_int.h	66;"	d
+rev_32xword	elfrw_int.h	67;"	d
+rev_64addr	elfrw_int.h	73;"	d
+rev_64half	elfrw_int.h	70;"	d
+rev_64off	elfrw_int.h	74;"	d
+rev_64word	elfrw_int.h	71;"	d
+rev_64xword	elfrw_int.h	72;"	d
+revinplc2	elfrw_int.h	/^static inline void revinplc2(void *in)$/;"	f
+revinplc4	elfrw_int.h	/^static inline void revinplc4(void *in)$/;"	f
+revinplc8	elfrw_int.h	/^static inline void revinplc8(void *in)$/;"	f
+revinplc_32addr	elfrw_int.h	126;"	d
+revinplc_32half	elfrw_int.h	123;"	d
+revinplc_32off	elfrw_int.h	127;"	d
+revinplc_32word	elfrw_int.h	124;"	d
+revinplc_32xword	elfrw_int.h	125;"	d
+revinplc_64addr	elfrw_int.h	131;"	d
+revinplc_64half	elfrw_int.h	128;"	d
+revinplc_64off	elfrw_int.h	132;"	d
+revinplc_64word	elfrw_int.h	129;"	d
+revinplc_64xword	elfrw_int.h	130;"	d
+sh_sig_buff	digsig.h	/^static char sh_sig_buff[ELF_SIG_SH_BUFF_SIZE];$/;"	v
+sh_sig_off	digsig.h	/^static int sh_sig_off = 0;\/\/秘钥节的偏移量$/;"	v
+shdrs	digsig.h	/^static Elf64_Shdr  *shdrs;		\/*the program section header table*\/$/;"	v
+shstrndx	digsig.h	/^static int shstrndx = -1;	\/*维护节名字表的索引*\/$/;"	v
+shstroff	digsig.h	/^static int shstroff = -1;	\/*维护节名字表的偏移量*\/$/;"	v
+shstrsize	digsig.h	/^static int shstrsize = 0;	\/*维护节名字表的大小*\/$/;"	v
+thefile	digsig.h	/^static FILE        *thefile;		\/* the currently open file handle *\/$/;"	v
+thefilename	digsig.h	/^static char const  *thefilename;	\/* the name of the current file *\/$/;"	v
+theprogram	digsig.h	/^static char const *theprogram;$/;"	v
+yowzitch	digsig.h	/^static char const *yowzitch =$/;"	v
