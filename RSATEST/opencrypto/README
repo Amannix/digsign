@@ -1,0 +1,24 @@
+﻿1. 目录结构
+-gmp		libgmp库
+-opencrypto	opencrypto源代码
+  -demo         使用opencrypto进行SM2加密、解密、签名、延签的简单例子
+
+
+
+2. 安装步骤
+1）首先进入gmp目录 先将gmp库安装
+2）再进入opencrypto目录
+   make
+   make install
+ 
+
+TIPS: 如果在make install时显示无权限，使用root权限进行安装。 
+      安装之后库和头文件将在/usr/local/opc目录下， 自行复制
+      到系统库目录下。
+      头文件：opc.h opcsm2.h opcsm3.h 
+      库文件：libopc.so
+      
+
+
+3. 编译
+在安装完gmp和opencrypto库之后，在编译程序时指定-lgmp -lopc

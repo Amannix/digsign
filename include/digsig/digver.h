@@ -36,34 +36,6 @@ static char const *theprogram;
  */
 static int dozerotrunc = FALSE;
 
-/* Information for each executable operated upon.
-*/
-static char const  *thefilename;	/* the name of the current file */
-static FILE        *thefile;		/* the currently open file handle */
-static Elf64_Ehdr   ehdr;		/* the current file's ELF header */
-static Elf64_Phdr  *phdrs;		/* the program segment header table */
-static Elf64_Shdr  *shdrs;		/*the program section header table*/
-static unsigned long       newsize;		/* the proposed new file size */
-
-static Elf64_Shdr apped_shdr; /*新增的秘钥节*/
-static int shstrndx = -1;	/*维护节名字表的索引*/
-static unsigned int shstroff = 0;	/*维护节名字表的偏移量*/
-static unsigned int shstrsize = 0;	/*维护节名字表的大小*/
-static unsigned int curr_file_size = 0; /*维护初始文件大小*/
-static unsigned int sh_sig_off = 0;//秘钥节的偏移量
-static char sh_sig_buff[ELF_SIG_SH_BUFF_SIZE];
-static unsigned int pre_shdrs_off;//修改文件前的节头表偏移量
-static unsigned int now_shdrs_off;//修改后的节头表偏移量
-static unsigned char *elf_text_data = NULL;
-static unsigned int elf_text_data_len;
-static unsigned char *user_id = NULL;
-static unsigned int user_id_len = ELF_SIG_USER_ID_LEN;
-
-SM2_KEY_PAIR key_pair;
-SM2_SIGNATURE_STRUCT sm2_sig;
-
-
-
 /* A macro for I/O errors: The given error message is used only when
  * errno is not set.
  */

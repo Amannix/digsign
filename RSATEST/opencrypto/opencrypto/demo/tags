@@ -1,0 +1,61 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Cipher	opcsm2.h	/^	unsigned char Cipher[1];$/;"	m	struct:OPC_ECCCipher_st
+CipherLen	opcsm2.h	/^	unsigned int CipherLen;$/;"	m	struct:OPC_ECCCipher_st
+Gx	opc.h	/^	opcbn_t Gx;$/;"	m	struct:opc_ecc_group
+Gx	opcsm2.h	/^	char Gx[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+Gy	opc.h	/^	opcbn_t Gy;$/;"	m	struct:opc_ecc_group
+Gy	opcsm2.h	/^	char Gy[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+HASH	opcsm2.h	/^	unsigned char HASH[SM3_DIGEST_SIZE];$/;"	m	struct:OPC_ECCCipher_st
+OPCSM2_H	opcsm2.h	21;"	d
+OPC_ECCCipher_st	opcsm2.h	/^typedef struct OPC_ECCCipher_st$/;"	s
+OPC_ECCSignature_st	opcsm2.h	/^typedef struct OPC_ECCSignature_st$/;"	s
+OPC_ECCref_MAX_LEN	opcsm2.h	25;"	d
+OPC_FAILURE	opc.h	26;"	d
+OPC_SLOPEERR	opc.h	27;"	d
+OPC_SM2_256_NID	opcsm2.h	31;"	d
+OPC_SM2_PARAMETER_LEN	opcsm2.h	27;"	d
+OPC_SUCCESS	opc.h	25;"	d
+OPENCRYPTO_H	opc.h	20;"	d
+SIZEOF_OPCSM2_CIPHER	opcsm2.h	29;"	d
+SM3_DIGEST_SIZE	opcsm2.h	26;"	d
+XCoordinate	opcsm2.h	/^	unsigned char XCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+YCoordinate	opcsm2.h	/^	unsigned char YCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+a	opc.h	/^	opcbn_t a;$/;"	m	struct:opc_ecc_group
+a	opcsm2.h	/^	char a[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+b	opc.h	/^	opcbn_t b;$/;"	m	struct:opc_ecc_group
+b	opcsm2.h	/^	char b[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+h	opc.h	/^	opcbn_t h;$/;"	m	struct:opc_ecc_group
+h	opcsm2.h	/^	char h[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+main	simple_demo.c	/^int main(int argc, char *argv[])$/;"	f
+n	opc.h	/^	opcbn_t n;$/;"	m	struct:opc_ecc_group
+n	opcsm2.h	/^	char n[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+nid	opcsm2.h	/^	unsigned int nid;$/;"	m	struct:opcsm2_parameters
+opc_bn	opc.h	/^typedef struct opc_bn$/;"	s
+opc_bn_st	opc.h	/^}opc_bn_st;$/;"	t	typeref:struct:opc_bn
+opc_ecc_group	opc.h	/^typedef struct opc_ecc_group$/;"	s
+opc_ecc_group_st	opc.h	/^}opc_ecc_group_st;$/;"	t	typeref:struct:opc_ecc_group
+opc_ecc_point	opc.h	/^typedef struct opc_ecc_point$/;"	s
+opc_ecc_point_st	opc.h	/^}opc_ecc_point_st;$/;"	t	typeref:struct:opc_ecc_point
+opc_printf	opc.h	29;"	d
+opcbn_t	opc.h	/^typedef opc_bn_st opcbn_t[1];$/;"	t
+opcec_group_t	opc.h	/^typedef opc_ecc_group_st opcec_group_t[1];$/;"	t
+opcec_t	opc.h	/^typedef opc_ecc_point_st opcec_t[1];$/;"	t
+opcsm2_cipher	opcsm2.h	/^}opcsm2_cipher;$/;"	t	typeref:struct:OPC_ECCCipher_st
+opcsm2_ecc_parameters_t	opcsm2.h	/^}opcsm2_ecc_parameters_t;$/;"	t	typeref:struct:sm2_ecc_parameters
+opcsm2_parameters	opcsm2.h	/^typedef struct opcsm2_parameters$/;"	s
+opcsm2_parameters_t	opcsm2.h	/^}opcsm2_parameters_t;$/;"	t	typeref:struct:opcsm2_parameters
+opcsm2_signature	opcsm2.h	/^}opcsm2_signature;$/;"	t	typeref:struct:OPC_ECCSignature_st
+p	opc.h	/^	opcbn_t p;$/;"	m	struct:opc_ecc_group
+p	opcsm2.h	/^	char p[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+param	opcsm2.h	/^	opcsm2_ecc_parameters_t *param;$/;"	m	struct:opcsm2_parameters
+r	opcsm2.h	/^	unsigned char r[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+s	opcsm2.h	/^	unsigned char s[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+sm2_ecc_parameters	opcsm2.h	/^typedef struct sm2_ecc_parameters$/;"	s
+val	opc.h	/^	mpz_t val;$/;"	m	struct:opc_bn
+x	opc.h	/^	opcbn_t x;$/;"	m	struct:opc_ecc_point
+y	opc.h	/^	opcbn_t y;$/;"	m	struct:opc_ecc_point

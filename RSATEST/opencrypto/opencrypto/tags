@@ -1,0 +1,457 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ACLOCAL	Makefile	/^ACLOCAL = ${SHELL} \/root\/opencrypto\/opencrypto\/missing aclocal-1.13$/;"	m
+ACLOCAL_M4	Makefile	/^ACLOCAL_M4 = $(top_srcdir)\/aclocal.m4$/;"	m
+AMTAR	Makefile	/^AMTAR = $${TAR-tar}$/;"	m
+AM_DEFAULT_VERBOSITY	Makefile	/^AM_DEFAULT_VERBOSITY = 1$/;"	m
+AM_RECURSIVE_TARGETS	Makefile	/^AM_RECURSIVE_TARGETS = cscope$/;"	m
+AM_V_CC	Makefile	/^AM_V_CC = $(am__v_CC_$(V))$/;"	m
+AM_V_CCLD	Makefile	/^AM_V_CCLD = $(am__v_CCLD_$(V))$/;"	m
+AM_V_GEN	Makefile	/^AM_V_GEN = $(am__v_GEN_$(V))$/;"	m
+AM_V_P	Makefile	/^AM_V_P = $(am__v_P_$(V))$/;"	m
+AM_V_at	Makefile	/^AM_V_at = $(am__v_at_$(V))$/;"	m
+AUTOCONF	Makefile	/^AUTOCONF = ${SHELL} \/root\/opencrypto\/opencrypto\/missing autoconf$/;"	m
+AUTOHEADER	Makefile	/^AUTOHEADER = ${SHELL} \/root\/opencrypto\/opencrypto\/missing autoheader$/;"	m
+AUTOMAKE	Makefile	/^AUTOMAKE = ${SHELL} \/root\/opencrypto\/opencrypto\/missing automake-1.13$/;"	m
+AWK	Makefile	/^AWK = gawk$/;"	m
+CC	Makefile	/^CC = gcc$/;"	m
+CCDEPMODE	Makefile	/^CCDEPMODE = depmode=gcc3$/;"	m
+CCLD	Makefile	/^CCLD = $(CC)$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -g -O2$/;"	m
+COMPILE	Makefile	/^COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \\$/;"	m
+CONFIG_CLEAN_FILES	Makefile	/^CONFIG_CLEAN_FILES =$/;"	m
+CONFIG_CLEAN_VPATH_FILES	Makefile	/^CONFIG_CLEAN_VPATH_FILES =$/;"	m
+CONFIG_HEADER	Makefile	/^CONFIG_HEADER = config.h$/;"	m
+CPP	Makefile	/^CPP = gcc -E$/;"	m
+CPPFLAGS	Makefile	/^CPPFLAGS = $/;"	m
+CSCOPE	Makefile	/^CSCOPE = cscope$/;"	m
+CTAGS	Makefile	/^CTAGS = ctags$/;"	m
+CYGPATH_W	Makefile	/^CYGPATH_W = echo$/;"	m
+Cipher	demo/opcsm2.h	/^	unsigned char Cipher[1];$/;"	m	struct:OPC_ECCCipher_st
+Cipher	opcsm2.h	/^	unsigned char Cipher[1];$/;"	m	struct:OPC_ECCCipher_st
+CipherLen	demo/opcsm2.h	/^	unsigned int CipherLen;$/;"	m	struct:OPC_ECCCipher_st
+CipherLen	opcsm2.h	/^	unsigned int CipherLen;$/;"	m	struct:OPC_ECCCipher_st
+DEFAULT_INCLUDES	Makefile	/^DEFAULT_INCLUDES = -I.$/;"	m
+DEFS	Makefile	/^DEFS = -DHAVE_CONFIG_H$/;"	m
+DEPDIR	Makefile	/^DEPDIR = .deps$/;"	m
+DISTFILES	Makefile	/^DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)$/;"	m
+DIST_ARCHIVES	Makefile	/^DIST_ARCHIVES = $(distdir).tar.gz$/;"	m
+DIST_COMMON	Makefile	/^DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \\$/;"	m
+DIST_SOURCES	Makefile	/^DIST_SOURCES = $(libopc_so_SOURCES)$/;"	m
+DIST_TARGETS	Makefile	/^DIST_TARGETS = dist-gzip$/;"	m
+ECHO_C	Makefile	/^ECHO_C = $/;"	m
+ECHO_N	Makefile	/^ECHO_N = -n$/;"	m
+ECHO_T	Makefile	/^ECHO_T = $/;"	m
+EGREP	Makefile	/^EGREP = \/usr\/bin\/grep -E$/;"	m
+ETAGS	Makefile	/^ETAGS = etags$/;"	m
+EXEEXT	Makefile	/^EXEEXT = $/;"	m
+FF0	opcsm3.c	113;"	d	file:
+FF1	opcsm3.c	114;"	d	file:
+GET_Uint_BE	opcsm3.c	27;"	d	file:
+GG0	opcsm3.c	116;"	d	file:
+GG1	opcsm3.c	117;"	d	file:
+GREP	Makefile	/^GREP = \/usr\/bin\/grep$/;"	m
+GZIP_ENV	Makefile	/^GZIP_ENV = --best$/;"	m
+Gx	demo/opc.h	/^	opcbn_t Gx;$/;"	m	struct:opc_ecc_group
+Gx	demo/opcsm2.h	/^	char Gx[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+Gx	opc.h	/^	opcbn_t Gx;$/;"	m	struct:opc_ecc_group
+Gx	opcsm2.h	/^	char Gx[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+Gy	demo/opc.h	/^	opcbn_t Gy;$/;"	m	struct:opc_ecc_group
+Gy	demo/opcsm2.h	/^	char Gy[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+Gy	opc.h	/^	opcbn_t Gy;$/;"	m	struct:opc_ecc_group
+Gy	opcsm2.h	/^	char Gy[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+HASH	demo/opcsm2.h	/^	unsigned char HASH[SM3_DIGEST_SIZE];$/;"	m	struct:OPC_ECCCipher_st
+HASH	opcsm2.h	/^	unsigned char HASH[SM3_DIGEST_SIZE];$/;"	m	struct:OPC_ECCCipher_st
+HAVE_GETTIMEOFDAY	config.h	5;"	d
+HAVE_GETTIMEOFDAY	opcrand.c	28;"	d	file:
+HAVE_INTTYPES_H	config.h	8;"	d
+HAVE_MALLOC	config.h	12;"	d
+HAVE_MALLOC_H	config.h	15;"	d
+HAVE_MEMORY_H	config.h	18;"	d
+HAVE_STDINT_H	config.h	21;"	d
+HAVE_STDLIB_H	config.h	24;"	d
+HAVE_STRINGS_H	config.h	27;"	d
+HAVE_STRING_H	config.h	30;"	d
+HAVE_SYS_STAT_H	config.h	33;"	d
+HAVE_SYS_TIME_H	config.h	36;"	d
+HAVE_SYS_TYPES_H	config.h	39;"	d
+HAVE_UNISTD_H	config.h	42;"	d
+HEADERS	Makefile	/^HEADERS = $(libopcinclude_HEADERS)$/;"	m
+INSTALL	Makefile	/^INSTALL = \/usr\/bin\/install -c$/;"	m
+INSTALL_DATA	Makefile	/^INSTALL_DATA = ${INSTALL} -m 644$/;"	m
+INSTALL_HEADER	Makefile	/^INSTALL_HEADER = $(INSTALL_DATA)$/;"	m
+INSTALL_PROGRAM	Makefile	/^INSTALL_PROGRAM = ${INSTALL}$/;"	m
+INSTALL_SCRIPT	Makefile	/^INSTALL_SCRIPT = ${INSTALL}$/;"	m
+INSTALL_STRIP_PROGRAM	Makefile	/^INSTALL_STRIP_PROGRAM = $(install_sh) -c -s$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS = $/;"	m
+LIBOBJS	Makefile	/^LIBOBJS = $/;"	m
+LIBS	Makefile	/^LIBS = $/;"	m
+LINK	Makefile	/^LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@$/;"	m
+LTLIBOBJS	Makefile	/^LTLIBOBJS = $/;"	m
+MAKEINFO	Makefile	/^MAKEINFO = ${SHELL} \/root\/opencrypto\/opencrypto\/missing makeinfo$/;"	m
+MKDIR_P	Makefile	/^MKDIR_P = \/usr\/bin\/mkdir -p$/;"	m
+NORMAL_INSTALL	Makefile	/^NORMAL_INSTALL = :$/;"	m
+NORMAL_UNINSTALL	Makefile	/^NORMAL_UNINSTALL = :$/;"	m
+OBJEXT	Makefile	/^OBJEXT = o$/;"	m
+OPCSM2_H	demo/opcsm2.h	21;"	d
+OPCSM2_H	opcsm2.h	21;"	d
+OPC_ECCCipher_st	demo/opcsm2.h	/^typedef struct OPC_ECCCipher_st$/;"	s
+OPC_ECCCipher_st	opcsm2.h	/^typedef struct OPC_ECCCipher_st$/;"	s
+OPC_ECCSignature_st	demo/opcsm2.h	/^typedef struct OPC_ECCSignature_st$/;"	s
+OPC_ECCSignature_st	opcsm2.h	/^typedef struct OPC_ECCSignature_st$/;"	s
+OPC_ECCref_MAX_LEN	demo/opcsm2.h	25;"	d
+OPC_ECCref_MAX_LEN	opcsm2.h	25;"	d
+OPC_FAILURE	demo/opc.h	26;"	d
+OPC_FAILURE	opc.h	26;"	d
+OPC_SLOPEERR	demo/opc.h	27;"	d
+OPC_SLOPEERR	opc.h	27;"	d
+OPC_SM2_256_NID	demo/opcsm2.h	31;"	d
+OPC_SM2_256_NID	opcsm2.h	31;"	d
+OPC_SM2_PARAMETER_LEN	demo/opcsm2.h	27;"	d
+OPC_SM2_PARAMETER_LEN	opcsm2.h	27;"	d
+OPC_SUCCESS	demo/opc.h	25;"	d
+OPC_SUCCESS	opc.h	25;"	d
+OPENCRYPTO_H	demo/opc.h	20;"	d
+OPENCRYPTO_H	opc.h	20;"	d
+P0	opcsm3.c	126;"	d	file:
+P1	opcsm3.c	127;"	d	file:
+PACKAGE	Makefile	/^PACKAGE = libopc.so$/;"	m
+PACKAGE	config.h	45;"	d
+PACKAGE_BUGREPORT	Makefile	/^PACKAGE_BUGREPORT = BUG-REPORT-ADDRESS$/;"	m
+PACKAGE_BUGREPORT	config.h	48;"	d
+PACKAGE_NAME	Makefile	/^PACKAGE_NAME = FULL-PACKAGE-NAME$/;"	m
+PACKAGE_NAME	config.h	51;"	d
+PACKAGE_STRING	Makefile	/^PACKAGE_STRING = FULL-PACKAGE-NAME VERSION$/;"	m
+PACKAGE_STRING	config.h	54;"	d
+PACKAGE_TARNAME	Makefile	/^PACKAGE_TARNAME = full-package-name$/;"	m
+PACKAGE_TARNAME	config.h	57;"	d
+PACKAGE_URL	Makefile	/^PACKAGE_URL = $/;"	m
+PACKAGE_URL	config.h	60;"	d
+PACKAGE_VERSION	Makefile	/^PACKAGE_VERSION = VERSION$/;"	m
+PACKAGE_VERSION	config.h	63;"	d
+PATH_SEPARATOR	Makefile	/^PATH_SEPARATOR = :$/;"	m
+POST_INSTALL	Makefile	/^POST_INSTALL = :$/;"	m
+POST_UNINSTALL	Makefile	/^POST_UNINSTALL = :$/;"	m
+PRE_INSTALL	Makefile	/^PRE_INSTALL = :$/;"	m
+PRE_UNINSTALL	Makefile	/^PRE_UNINSTALL = :$/;"	m
+PROGRAMS	Makefile	/^PROGRAMS = $(libopclib_PROGRAMS)$/;"	m
+PUT_Uint_BE	opcsm3.c	37;"	d	file:
+ROTL	opcsm3.c	124;"	d	file:
+SET_MAKE	Makefile	/^SET_MAKE = $/;"	m
+SHELL	Makefile	/^SHELL = \/bin\/sh$/;"	m
+SHL	opcsm3.c	123;"	d	file:
+SIZEOF_OPCSM2_CIPHER	demo/opcsm2.h	29;"	d
+SIZEOF_OPCSM2_CIPHER	opcsm2.h	29;"	d
+SM3_DIGEST_SIZE	demo/opcsm2.h	26;"	d
+SM3_DIGEST_SIZE	opcsm2.h	26;"	d
+SOURCES	Makefile	/^SOURCES = $(libopc_so_SOURCES)$/;"	m
+STDC_HEADERS	config.h	66;"	d
+STRIP	Makefile	/^STRIP = $/;"	m
+VERSION	Makefile	/^VERSION = 1.0$/;"	m
+VERSION	config.h	69;"	d
+XCoordinate	demo/opcsm2.h	/^	unsigned char XCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+XCoordinate	opcsm2.h	/^	unsigned char XCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+XYSSL_SM3_H	opcsm3.h	10;"	d
+YCoordinate	demo/opcsm2.h	/^	unsigned char YCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+YCoordinate	opcsm2.h	/^	unsigned char YCoordinate[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCCipher_st
+a	demo/opc.h	/^	opcbn_t a;$/;"	m	struct:opc_ecc_group
+a	demo/opcsm2.h	/^	char a[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+a	opc.h	/^	opcbn_t a;$/;"	m	struct:opc_ecc_group
+a	opcsm2.h	/^	char a[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+a2i	opcbn.c	/^void a2i(char *str, unsigned char *bin, unsigned int *binlen)$/;"	f
+a2i_byte	opcbn.c	/^void a2i_byte(char *src, unsigned char *b, int cnt)$/;"	f
+abs_builddir	Makefile	/^abs_builddir = \/root\/opencrypto\/opencrypto$/;"	m
+abs_srcdir	Makefile	/^abs_srcdir = \/root\/opencrypto\/opencrypto$/;"	m
+abs_top_builddir	Makefile	/^abs_top_builddir = \/root\/opencrypto\/opencrypto$/;"	m
+abs_top_srcdir	Makefile	/^abs_top_srcdir = \/root\/opencrypto\/opencrypto$/;"	m
+ac_ct_CC	Makefile	/^ac_ct_CC = gcc$/;"	m
+ac_fn_c_check_func	configure	/^ac_fn_c_check_func ()$/;"	f
+ac_fn_c_check_header_compile	configure	/^ac_fn_c_check_header_compile ()$/;"	f
+ac_fn_c_check_header_mongrel	configure	/^ac_fn_c_check_header_mongrel ()$/;"	f
+ac_fn_c_try_compile	configure	/^ac_fn_c_try_compile ()$/;"	f
+ac_fn_c_try_cpp	configure	/^ac_fn_c_try_cpp ()$/;"	f
+ac_fn_c_try_link	configure	/^ac_fn_c_try_link ()$/;"	f
+ac_fn_c_try_run	configure	/^ac_fn_c_try_run ()$/;"	f
+am__CONFIG_DISTCLEAN_FILES	Makefile	/^am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \\$/;"	m
+am__aclocal_m4_deps	Makefile	/^am__aclocal_m4_deps = $(top_srcdir)\/configure.ac$/;"	m
+am__base_list	Makefile	/^am__base_list = \\$/;"	m
+am__can_run_installinfo	Makefile	/^am__can_run_installinfo = \\$/;"	m
+am__cd	Makefile	/^am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd$/;"	m
+am__configure_deps	Makefile	/^am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \\$/;"	m
+am__define_uniq_tagged_files	Makefile	/^am__define_uniq_tagged_files = \\$/;"	m
+am__depfiles_maybe	Makefile	/^am__depfiles_maybe = depfiles$/;"	m
+am__distuninstallcheck_listfiles	Makefile	/^am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \\$/;"	m
+am__include	Makefile	/^am__include = include$/;"	m
+am__install_max	Makefile	/^am__install_max = 40$/;"	m
+am__installdirs	Makefile	/^am__installdirs = "$(DESTDIR)$(libopclibdir)" \\$/;"	m
+am__is_gnu_make	Makefile	/^am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'$/;"	m
+am__leading_dot	Makefile	/^am__leading_dot = .$/;"	m
+am__make_dryrun	Makefile	/^am__make_dryrun = (target_option=n; $(am__make_running_with_option))$/;"	m
+am__make_keepgoing	Makefile	/^am__make_keepgoing = (target_option=k; $(am__make_running_with_option))$/;"	m
+am__make_running_with_option	Makefile	/^am__make_running_with_option = \\$/;"	m
+am__mv	Makefile	/^am__mv = mv -f$/;"	m
+am__nobase_list	Makefile	/^am__nobase_list = $(am__nobase_strip_setup); \\$/;"	m
+am__nobase_strip	Makefile	/^am__nobase_strip = \\$/;"	m
+am__nobase_strip_setup	Makefile	/^am__nobase_strip_setup = \\$/;"	m
+am__post_remove_distdir	Makefile	/^am__post_remove_distdir = $(am__remove_distdir)$/;"	m
+am__quote	Makefile	/^am__quote = $/;"	m
+am__remove_distdir	Makefile	/^am__remove_distdir = \\$/;"	m
+am__strip_dir	Makefile	/^am__strip_dir = f=`echo $$p | sed -e 's|^.*\/||'`;$/;"	m
+am__tagged_files	Makefile	/^am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) \\$/;"	m
+am__tar	Makefile	/^am__tar = $${TAR-tar} chof - "$$tardir"$/;"	m
+am__uninstall_files_from_dir	Makefile	/^am__uninstall_files_from_dir = { \\$/;"	m
+am__uniquify_input	Makefile	/^am__uniquify_input = $(AWK) '\\$/;"	m
+am__untar	Makefile	/^am__untar = $${TAR-tar} xf -$/;"	m
+am__v_CCLD_	Makefile	/^am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CCLD_0	Makefile	/^am__v_CCLD_0 = @echo "  CCLD    " $@;$/;"	m
+am__v_CCLD_1	Makefile	/^am__v_CCLD_1 = $/;"	m
+am__v_CC_	Makefile	/^am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_CC_0	Makefile	/^am__v_CC_0 = @echo "  CC      " $@;$/;"	m
+am__v_CC_1	Makefile	/^am__v_CC_1 = $/;"	m
+am__v_GEN_	Makefile	/^am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_GEN_0	Makefile	/^am__v_GEN_0 = @echo "  GEN     " $@;$/;"	m
+am__v_GEN_1	Makefile	/^am__v_GEN_1 = $/;"	m
+am__v_P_	Makefile	/^am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_P_0	Makefile	/^am__v_P_0 = false$/;"	m
+am__v_P_1	Makefile	/^am__v_P_1 = :$/;"	m
+am__v_at_	Makefile	/^am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))$/;"	m
+am__v_at_0	Makefile	/^am__v_at_0 = @$/;"	m
+am__v_at_1	Makefile	/^am__v_at_1 = $/;"	m
+am__vpath_adj	Makefile	/^am__vpath_adj = case $$p in \\$/;"	m
+am__vpath_adj_setup	Makefile	/^am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;$/;"	m
+am_libopc_so_OBJECTS	Makefile	/^am_libopc_so_OBJECTS = opcbn.$(OBJEXT) opcec.$(OBJEXT) \\$/;"	m
+as_fn_append	config.status	/^  as_fn_append ()$/;"	f
+as_fn_append	configure	/^  as_fn_append ()$/;"	f
+as_fn_arith	config.status	/^  as_fn_arith ()$/;"	f
+as_fn_arith	configure	/^  as_fn_arith ()$/;"	f
+as_fn_error	config.status	/^as_fn_error ()$/;"	f
+as_fn_error	configure	/^as_fn_error ()$/;"	f
+as_fn_executable_p	config.status	/^as_fn_executable_p ()$/;"	f
+as_fn_executable_p	configure	/^as_fn_executable_p ()$/;"	f
+as_fn_exit	config.status	/^as_fn_exit ()$/;"	f
+as_fn_exit	configure	/^as_fn_exit ()$/;"	f
+as_fn_failure	configure	/^as_fn_failure () { as_fn_return 1; }$/;"	f
+as_fn_mkdir_p	config.status	/^as_fn_mkdir_p ()$/;"	f
+as_fn_mkdir_p	configure	/^as_fn_mkdir_p ()$/;"	f
+as_fn_ret_failure	configure	/^as_fn_ret_failure () { return 1; }$/;"	f
+as_fn_ret_success	configure	/^as_fn_ret_success () { return 0; }$/;"	f
+as_fn_set_status	config.status	/^as_fn_set_status ()$/;"	f
+as_fn_set_status	configure	/^as_fn_set_status ()$/;"	f
+as_fn_success	configure	/^as_fn_success () { as_fn_return 0; }$/;"	f
+as_fn_unset	config.status	/^as_fn_unset ()$/;"	f
+as_fn_unset	configure	/^as_fn_unset ()$/;"	f
+b	demo/opc.h	/^	opcbn_t b;$/;"	m	struct:opc_ecc_group
+b	demo/opcsm2.h	/^	char b[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+b	opc.h	/^	opcbn_t b;$/;"	m	struct:opc_ecc_group
+b	opcsm2.h	/^	char b[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+base_rand_st	opcrand.c	/^static gmp_randstate_t base_rand_st;$/;"	v	file:
+bindir	Makefile	/^bindir = ${exec_prefix}\/bin$/;"	m
+buffer	opcsm3.h	/^    unsigned char buffer[64];   \/*!< data block being processed *\/$/;"	m	struct:__anon1
+build_alias	Makefile	/^build_alias = $/;"	m
+builddir	Makefile	/^builddir = .$/;"	m
+calculate_Xr	opcec.c	/^void calculate_Xr(opcec_group_t group, opcec_t r, opcbn_t slope, opcec_t p, opcec_t q)$/;"	f
+calculate_Yr	opcec.c	/^void calculate_Yr(opcec_group_t group, opcec_t r, opcbn_t slope, opcec_t p, opcec_t q)$/;"	f
+cpu_to_be16	opcsm2.c	28;"	d	file:
+cpu_to_be16	opcsm2.c	31;"	d	file:
+cpu_to_be32	opcsm2.c	29;"	d	file:
+cpu_to_be32	opcsm2.c	32;"	d	file:
+datadir	Makefile	/^datadir = ${datarootdir}$/;"	m
+datarootdir	Makefile	/^datarootdir = ${prefix}\/share$/;"	m
+depcomp	Makefile	/^depcomp = $(SHELL) $(top_srcdir)\/depcomp$/;"	m
+distcleancheck_listfiles	Makefile	/^distcleancheck_listfiles = find . -type f -print$/;"	m
+distdir	Makefile	/^distdir = $(PACKAGE)-$(VERSION)$/;"	m
+distuninstallcheck_listfiles	Makefile	/^distuninstallcheck_listfiles = find . -type f -print$/;"	m
+docdir	Makefile	/^docdir = ${datarootdir}\/doc\/${PACKAGE_TARNAME}$/;"	m
+dvidir	Makefile	/^dvidir = ${docdir}$/;"	m
+exec_prefix	Makefile	/^exec_prefix = ${prefix}$/;"	m
+get_slope_equal	opcec.c	/^int get_slope_equal(opcec_group_t group, opcbn_t slope, opcec_t p)$/;"	f
+get_slope_other	opcec.c	/^int get_slope_other(opcec_group_t group, opcbn_t slope, opcec_t p, opcec_t q)$/;"	f
+h	demo/opc.h	/^	opcbn_t h;$/;"	m	struct:opc_ecc_group
+h	demo/opcsm2.h	/^	char h[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+h	opc.h	/^	opcbn_t h;$/;"	m	struct:opc_ecc_group
+h	opcsm2.h	/^	char h[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+host_alias	Makefile	/^host_alias = $/;"	m
+htmldir	Makefile	/^htmldir = ${docdir}$/;"	m
+i2a	opcbn.c	/^void i2a(char *str, unsigned char *hex, unsigned int len)$/;"	f
+i2a_byte	opcbn.c	/^void i2a_byte(char b, char *dst)$/;"	f
+includedir	Makefile	/^includedir = ${prefix}\/include$/;"	m
+infodir	Makefile	/^infodir = ${datarootdir}\/info$/;"	m
+install_sh	Makefile	/^install_sh = ${SHELL} \/root\/opencrypto\/opencrypto\/install-sh$/;"	m
+install_sh_DATA	Makefile	/^install_sh_DATA = $(install_sh) -c -m 644$/;"	m
+install_sh_PROGRAM	Makefile	/^install_sh_PROGRAM = $(install_sh) -c$/;"	m
+install_sh_SCRIPT	Makefile	/^install_sh_SCRIPT = $(install_sh) -c$/;"	m
+ipad	opcsm3.h	/^    unsigned char ipad[64];     \/*!< HMAC: inner padding        *\/$/;"	m	struct:__anon1
+libdir	Makefile	/^libdir = ${exec_prefix}\/lib$/;"	m
+libexecdir	Makefile	/^libexecdir = ${exec_prefix}\/libexec$/;"	m
+libopc_so_LDADD	Makefile	/^libopc_so_LDADD = $(LDADD)$/;"	m
+libopc_so_LDFLAGS	Makefile	/^libopc_so_LDFLAGS = -shared -fpic -lgmp$/;"	m
+libopc_so_LINK	Makefile	/^libopc_so_LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(libopc_so_LDFLAGS) \\$/;"	m
+libopc_so_OBJECTS	Makefile	/^libopc_so_OBJECTS = $(am_libopc_so_OBJECTS)$/;"	m
+libopc_so_SOURCES	Makefile	/^libopc_so_SOURCES = opcbn.c opcec.c opcrand.c opcsm2.c opcsm3.c$/;"	m
+libopcinclude_HEADERS	Makefile	/^libopcinclude_HEADERS = opc.h opcsm2.h opcsm3.h$/;"	m
+libopcincludedir	Makefile	/^libopcincludedir = $(includedir)\/..\/opc\/include$/;"	m
+libopclib_PROGRAMS	Makefile	/^libopclib_PROGRAMS = libopc.so$(EXEEXT)$/;"	m
+libopclibdir	Makefile	/^libopclibdir = $(libdir)\/..\/opc\/lib$/;"	m
+localedir	Makefile	/^localedir = ${datarootdir}\/locale$/;"	m
+localstatedir	Makefile	/^localstatedir = ${prefix}\/var$/;"	m
+main	demo/simple_demo.c	/^int main(int argc, char *argv[])$/;"	f
+main	simple_demo.c	/^int main(int argc, char *argv[])$/;"	f
+mandir	Makefile	/^mandir = ${datarootdir}\/man$/;"	m
+mkdir_p	Makefile	/^mkdir_p = $(MKDIR_P)$/;"	m
+mkinstalldirs	Makefile	/^mkinstalldirs = $(install_sh) -d$/;"	m
+mpz_get_bin	opcbn.c	/^unsigned char *mpz_get_bin(unsigned char *bin, unsigned int *binlen, mpz_t op, unsigned int n)$/;"	f
+mpz_set_bin	opcbn.c	/^int mpz_set_bin(mpz_t a, unsigned char *bin, int len)$/;"	f
+n	demo/opc.h	/^	opcbn_t n;$/;"	m	struct:opc_ecc_group
+n	demo/opcsm2.h	/^	char n[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+n	opc.h	/^	opcbn_t n;$/;"	m	struct:opc_ecc_group
+n	opcsm2.h	/^	char n[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+nid	demo/opcsm2.h	/^	unsigned int nid;$/;"	m	struct:opcsm2_parameters
+nid	opcsm2.h	/^	unsigned int nid;$/;"	m	struct:opcsm2_parameters
+oldincludedir	Makefile	/^oldincludedir = \/usr\/include$/;"	m
+opad	opcsm3.h	/^    unsigned char opad[64];     \/*!< HMAC: outer padding        *\/$/;"	m	struct:__anon1
+opc_bn	demo/opc.h	/^typedef struct opc_bn$/;"	s
+opc_bn	opc.h	/^typedef struct opc_bn$/;"	s
+opc_bn_st	demo/opc.h	/^}opc_bn_st;$/;"	t	typeref:struct:opc_bn
+opc_bn_st	opc.h	/^}opc_bn_st;$/;"	t	typeref:struct:opc_bn
+opc_ecc_group	demo/opc.h	/^typedef struct opc_ecc_group$/;"	s
+opc_ecc_group	opc.h	/^typedef struct opc_ecc_group$/;"	s
+opc_ecc_group_st	demo/opc.h	/^}opc_ecc_group_st;$/;"	t	typeref:struct:opc_ecc_group
+opc_ecc_group_st	opc.h	/^}opc_ecc_group_st;$/;"	t	typeref:struct:opc_ecc_group
+opc_ecc_point	demo/opc.h	/^typedef struct opc_ecc_point$/;"	s
+opc_ecc_point	opc.h	/^typedef struct opc_ecc_point$/;"	s
+opc_ecc_point_st	demo/opc.h	/^}opc_ecc_point_st;$/;"	t	typeref:struct:opc_ecc_point
+opc_ecc_point_st	opc.h	/^}opc_ecc_point_st;$/;"	t	typeref:struct:opc_ecc_point
+opc_free	opcbn.c	/^void opc_free(void *p)$/;"	f
+opc_malloc	opcbn.c	/^void *opc_malloc(int size)$/;"	f
+opc_printf	demo/opc.h	29;"	d
+opc_printf	opc.h	29;"	d
+opcbn_add	opcbn.c	/^void opcbn_add(opcbn_t sum, opcbn_t a, opcbn_t b)$/;"	f
+opcbn_clear	opcbn.c	/^void opcbn_clear(opcbn_t a)$/;"	f
+opcbn_cmp	opcbn.c	/^int opcbn_cmp(opcbn_t op1, opcbn_t op2)$/;"	f
+opcbn_cpy	opcbn.c	/^void opcbn_cpy(opcbn_t dst, opcbn_t src)$/;"	f
+opcbn_fdiv_q	opcbn.c	/^void opcbn_fdiv_q(opcbn_t q, opcbn_t n, opcbn_t d)$/;"	f
+opcbn_fdiv_q_ui	opcbn.c	/^void opcbn_fdiv_q_ui(opcbn_t q, opcbn_t r, unsigned long int n)$/;"	f
+opcbn_get_bin	opcbn.c	/^unsigned char *opcbn_get_bin(unsigned char *bin, unsigned int *len, opcbn_t op, unsigned int n)$/;"	f
+opcbn_get_str	opcbn.c	/^char *opcbn_get_str(char *str, opcbn_t op)$/;"	f
+opcbn_get_ui	opcbn.c	/^unsigned long int opcbn_get_ui(opcbn_t op)$/;"	f
+opcbn_init	opcbn.c	/^void opcbn_init(opcbn_t a)$/;"	f
+opcbn_invert	opcbn.c	/^int opcbn_invert(opcbn_t rop, opcbn_t a, opcbn_t n)$/;"	f
+opcbn_mod	opcbn.c	/^void opcbn_mod(opcbn_t out, opcbn_t a, opcbn_t n)$/;"	f
+opcbn_mod_ui	opcbn.c	/^void opcbn_mod_ui(opcbn_t out, opcbn_t a, unsigned long int n)$/;"	f
+opcbn_modadd	opcbn.c	/^void opcbn_modadd(opcbn_t sum, opcbn_t a, opcbn_t b, opcbn_t n)$/;"	f
+opcbn_modmul	opcbn.c	/^void opcbn_modmul(opcbn_t out, opcbn_t a, opcbn_t b, opcbn_t n)$/;"	f
+opcbn_modsub	opcbn.c	/^void opcbn_modsub(opcbn_t sub, opcbn_t a, opcbn_t b, opcbn_t n)$/;"	f
+opcbn_mul	opcbn.c	/^void opcbn_mul(opcbn_t out, opcbn_t a, opcbn_t b)$/;"	f
+opcbn_pow_ui	opcbn.c	/^void opcbn_pow_ui(opcbn_t rop, opcbn_t base, unsigned long int exp)$/;"	f
+opcbn_powm	opcbn.c	/^void opcbn_powm(opcbn_t rop, opcbn_t base, opcbn_t exp, opcbn_t mod)$/;"	f
+opcbn_powm_ui	opcbn.c	/^void opcbn_powm_ui(opcbn_t rop, opcbn_t base, unsigned long int exp, opcbn_t mod)$/;"	f
+opcbn_section	opcbn.c	/^int opcbn_section(opcbn_t op1, opcbn_t op2, opcbn_t op3)$/;"	f
+opcbn_set_bin	opcbn.c	/^int opcbn_set_bin(opcbn_t a, char *bin, int len)$/;"	f
+opcbn_set_str	opcbn.c	/^int opcbn_set_str(opcbn_t a, char *str, int redix)$/;"	f
+opcbn_size_byte	opcbn.c	/^int opcbn_size_byte(opcbn_t op)$/;"	f
+opcbn_sub	opcbn.c	/^void opcbn_sub(opcbn_t sub, opcbn_t a, opcbn_t b)$/;"	f
+opcbn_t	demo/opc.h	/^typedef opc_bn_st opcbn_t[1];$/;"	t
+opcbn_t	opc.h	/^typedef opc_bn_st opcbn_t[1];$/;"	t
+opcec_add	opcec.c	/^int opcec_add(opcec_group_t group, opcec_t r, opcec_t p, opcec_t q)$/;"	f
+opcec_clear	opcec.c	/^void opcec_clear(opcec_t p)$/;"	f
+opcec_clear_group	opcec.c	/^void opcec_clear_group(opcec_group_t group)$/;"	f
+opcec_cpy	opcec.c	/^void opcec_cpy(opcec_t dst, opcec_t src)$/;"	f
+opcec_create_group	opcec.c	/^void opcec_create_group(opcec_group_t group, opcbn_t p, opcbn_t a, opcbn_t b, opcbn_t Gx, opcbn_t Gy, opcbn_t n, opcbn_t h)$/;"	f
+opcec_get_bin	opcec.c	/^void opcec_get_bin(unsigned char *x, int *xlen, unsigned char *y, int *ylen, opcec_t p, unsigned int n)$/;"	f
+opcec_get_opcbn	opcec.c	/^void opcec_get_opcbn(opcbn_t x, opcbn_t y, opcec_t p)$/;"	f
+opcec_get_str	opcec.c	/^void opcec_get_str(char *x, char *y, opcec_t p)$/;"	f
+opcec_group_t	demo/opc.h	/^typedef opc_ecc_group_st opcec_group_t[1];$/;"	t
+opcec_group_t	opc.h	/^typedef opc_ecc_group_st opcec_group_t[1];$/;"	t
+opcec_init	opcec.c	/^void opcec_init(opcec_t p)$/;"	f
+opcec_mul	opcec.c	/^int opcec_mul(opcec_group_t group, opcec_t r, opcec_t p, opcbn_t k)$/;"	f
+opcec_set_bin	opcec.c	/^int opcec_set_bin(opcec_t p, char *x, int xlen, char *y, int ylen)$/;"	f
+opcec_set_opcbn	opcec.c	/^void opcec_set_opcbn(opcec_t rop, opcbn_t x, opcbn_t y)$/;"	f
+opcec_set_str	opcec.c	/^int opcec_set_str(opcec_t p, char *x, int xredix, char *y, int yredix)$/;"	f
+opcec_t	demo/opc.h	/^typedef opc_ecc_point_st opcec_t[1];$/;"	t
+opcec_t	opc.h	/^typedef opc_ecc_point_st opcec_t[1];$/;"	t
+opcrand_clear	opcrand.c	/^void opcrand_clear(void)$/;"	f
+opcrand_generate_b	opcrand.c	/^void opcrand_generate_b(opcbn_t op, unsigned long int byte_len)$/;"	f
+opcrand_generate_m	opcrand.c	/^void opcrand_generate_m(opcbn_t op, opcbn_t n)$/;"	f
+opcrand_init	opcrand.c	/^void opcrand_init(void)$/;"	f
+opcsm2_cipher	demo/opcsm2.h	/^}opcsm2_cipher;$/;"	t	typeref:struct:OPC_ECCCipher_st
+opcsm2_cipher	opcsm2.h	/^}opcsm2_cipher;$/;"	t	typeref:struct:OPC_ECCCipher_st
+opcsm2_create_group	opcsm2.c	/^int opcsm2_create_group(opcec_group_t group, int nid)$/;"	f
+opcsm2_decrypt	opcsm2.c	/^int opcsm2_decrypt(opcec_group_t group, opcsm2_cipher *cipher, opcbn_t privatekey, unsigned char *plain, unsigned int *plainlen)$/;"	f
+opcsm2_ecc_parameters_t	demo/opcsm2.h	/^}opcsm2_ecc_parameters_t;$/;"	t	typeref:struct:sm2_ecc_parameters
+opcsm2_ecc_parameters_t	opcsm2.h	/^}opcsm2_ecc_parameters_t;$/;"	t	typeref:struct:sm2_ecc_parameters
+opcsm2_encrypt	opcsm2.c	/^int opcsm2_encrypt(opcec_group_t group, opcec_t publickey, unsigned char *plain, unsigned int plainlen, opcsm2_cipher *cipher)$/;"	f
+opcsm2_generate_key	opcsm2.c	/^int opcsm2_generate_key(opcec_group_t group, opcec_t publickey, opcbn_t privatekey)$/;"	f
+opcsm2_get_cipher_size	opcsm2.c	/^int opcsm2_get_cipher_size(opcsm2_cipher *cipher)$/;"	f
+opcsm2_getz	opcsm2.c	/^int opcsm2_getz(opcec_group_t group, char *id, unsigned int id_len, opcec_t publickey, unsigned char *za)$/;"	f
+opcsm2_parameters	demo/opcsm2.h	/^typedef struct opcsm2_parameters$/;"	s
+opcsm2_parameters	opcsm2.h	/^typedef struct opcsm2_parameters$/;"	s
+opcsm2_parameters_t	demo/opcsm2.h	/^}opcsm2_parameters_t;$/;"	t	typeref:struct:opcsm2_parameters
+opcsm2_parameters_t	opcsm2.h	/^}opcsm2_parameters_t;$/;"	t	typeref:struct:opcsm2_parameters
+opcsm2_sign	opcsm2.c	/^int opcsm2_sign(opcec_group_t group, opcbn_t privatekey, unsigned char *digst, unsigned int digstlen, opcsm2_signature *sign)$/;"	f
+opcsm2_signature	demo/opcsm2.h	/^}opcsm2_signature;$/;"	t	typeref:struct:OPC_ECCSignature_st
+opcsm2_signature	opcsm2.h	/^}opcsm2_signature;$/;"	t	typeref:struct:OPC_ECCSignature_st
+opcsm2_verify	opcsm2.c	/^int opcsm2_verify(opcec_group_t group, opcec_t publickey, opcsm2_signature *sign, unsigned char *digst, unsigned int digstlen)$/;"	f
+opcsm3	opcsm3.c	/^void opcsm3( unsigned char *input, int ilen,$/;"	f
+p	demo/opc.h	/^	opcbn_t p;$/;"	m	struct:opc_ecc_group
+p	demo/opcsm2.h	/^	char p[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+p	opc.h	/^	opcbn_t p;$/;"	m	struct:opc_ecc_group
+p	opcsm2.h	/^	char p[OPC_SM2_PARAMETER_LEN];$/;"	m	struct:sm2_ecc_parameters
+param	demo/opcsm2.h	/^	opcsm2_ecc_parameters_t *param;$/;"	m	struct:opcsm2_parameters
+param	opcsm2.h	/^	opcsm2_ecc_parameters_t *param;$/;"	m	struct:opcsm2_parameters
+pdfdir	Makefile	/^pdfdir = ${docdir}$/;"	m
+pkgdatadir	Makefile	/^pkgdatadir = $(datadir)\/libopc.so$/;"	m
+pkgincludedir	Makefile	/^pkgincludedir = $(includedir)\/libopc.so$/;"	m
+pkglibdir	Makefile	/^pkglibdir = $(libdir)\/libopc.so$/;"	m
+pkglibexecdir	Makefile	/^pkglibexecdir = $(libexecdir)\/libopc.so$/;"	m
+prefix	Makefile	/^prefix = \/usr\/local$/;"	m
+program_transform_name	Makefile	/^program_transform_name = s,x,x,$/;"	m
+prototypes	configure	/^   function prototypes and stuff, but not '\\xHH' hex character constants.$/;"	f
+psdir	Makefile	/^psdir = ${docdir}$/;"	m
+r	demo/opcsm2.h	/^	unsigned char r[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+r	opcsm2.h	/^	unsigned char r[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+s	demo/opcsm2.h	/^	unsigned char s[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+s	opcsm2.h	/^	unsigned char s[OPC_ECCref_MAX_LEN];$/;"	m	struct:OPC_ECCSignature_st
+sbindir	Makefile	/^sbindir = ${exec_prefix}\/sbin$/;"	m
+sharedstatedir	Makefile	/^sharedstatedir = ${prefix}\/com$/;"	m
+sm2_256_parameter	opcsm2.c	/^static opcsm2_ecc_parameters_t sm2_256_parameter =$/;"	v	file:
+sm2_ecc_parameters	demo/opcsm2.h	/^typedef struct sm2_ecc_parameters$/;"	s
+sm2_ecc_parameters	opcsm2.h	/^typedef struct sm2_ecc_parameters$/;"	s
+sm2_parameters_list	opcsm2.c	/^static opcsm2_parameters_t sm2_parameters_list[] = $/;"	v	file:
+sm3_context	opcsm3.h	/^sm3_context;$/;"	t	typeref:struct:__anon1
+sm3_file	opcsm3.c	/^int sm3_file( char *path, unsigned char output[32] )$/;"	f
+sm3_finish	opcsm3.c	/^void sm3_finish( sm3_context *ctx, unsigned char output[32] )$/;"	f
+sm3_hmac	opcsm3.c	/^void sm3_hmac( unsigned char *key, int keylen,$/;"	f
+sm3_hmac_finish	opcsm3.c	/^void sm3_hmac_finish( sm3_context *ctx, unsigned char output[32] )$/;"	f
+sm3_hmac_starts	opcsm3.c	/^void sm3_hmac_starts( sm3_context *ctx, unsigned char *key, int keylen )$/;"	f
+sm3_hmac_update	opcsm3.c	/^void sm3_hmac_update( sm3_context *ctx, unsigned char *input, int ilen )$/;"	f
+sm3_padding	opcsm3.c	/^static const unsigned char sm3_padding[64] =$/;"	v	file:
+sm3_process	opcsm3.c	/^static void sm3_process( sm3_context *ctx, unsigned char data[64] )$/;"	f	file:
+sm3_starts	opcsm3.c	/^void sm3_starts( sm3_context *ctx )$/;"	f
+sm3_update	opcsm3.c	/^void sm3_update( sm3_context *ctx, unsigned char *input, int ilen )$/;"	f
+srcdir	Makefile	/^srcdir = .$/;"	m
+state	opcsm3.h	/^    unsigned int state[8];     \/*!< intermediate digest state  *\/$/;"	m	struct:__anon1
+subdir	Makefile	/^subdir = .$/;"	m
+sysconfdir	Makefile	/^sysconfdir = ${prefix}\/etc$/;"	m
+tardir	Makefile	/^	tardir=$(distdir) && $(am__tar) | BZIP2=$${BZIP2--9} bzip2 -c >$(distdir).tar.bz2$/;"	m
+tardir	Makefile	/^	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz$/;"	m
+tardir	Makefile	/^	tardir=$(distdir) && $(am__tar) | XZ_OPT=$${XZ_OPT--e} xz -c >$(distdir).tar.xz$/;"	m
+tardir	Makefile	/^	tardir=$(distdir) && $(am__tar) | compress -c >$(distdir).tar.Z$/;"	m
+tardir	Makefile	/^	tardir=$(distdir) && $(am__tar) | lzip -c $${LZIP_OPT--9} >$(distdir).tar.lz$/;"	m
+target_alias	Makefile	/^target_alias = $/;"	m
+top_build_prefix	Makefile	/^top_build_prefix = $/;"	m
+top_builddir	Makefile	/^top_builddir = .$/;"	m
+top_distdir	Makefile	/^top_distdir = $(distdir)$/;"	m
+top_srcdir	Makefile	/^top_srcdir = .$/;"	m
+total	opcsm3.h	/^    unsigned int total[2];     \/*!< number of bytes processed  *\/$/;"	m	struct:__anon1
+transform	Makefile	/^transform = $(program_transform_name)$/;"	m
+val	demo/opc.h	/^	mpz_t val;$/;"	m	struct:opc_bn
+val	opc.h	/^	mpz_t val;$/;"	m	struct:opc_bn
+x	demo/opc.h	/^	opcbn_t x;$/;"	m	struct:opc_ecc_point
+x	opc.h	/^	opcbn_t x;$/;"	m	struct:opc_ecc_point
+x9_63_kdf_sm3	opcsm2.c	/^int x9_63_kdf_sm3(const unsigned char *share, size_t sharelen, unsigned char *outkey, size_t keylen)$/;"	f
+y	demo/opc.h	/^	opcbn_t y;$/;"	m	struct:opc_ecc_point
+y	opc.h	/^	opcbn_t y;$/;"	m	struct:opc_ecc_point
