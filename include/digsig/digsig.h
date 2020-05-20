@@ -17,24 +17,7 @@
 #define	FALSE	0
 #endif
 
-/* The online help text.
-*/
-static char const *yowzitch =
-"Usage: sstrip [OPTIONS] FILE...\n"
-"Remove all nonessential bytes from executable ELF files.\n\n"
-"  -z, --zeroes        Also discard trailing zero bytes.\n"
-"      --help          Display this help and exit.\n"
-"      --version       Display version information and exit.\n";
-
-
-/* The name of the program.
-*/
-static char const *theprogram;
-
-/* TRUE if we should attempt to truncate zero bytes from the end of
- * the file.
- */
-static int dozerotrunc = FALSE;
+char *theprogram = NULL;
 
 /* Information for each executable operated upon.
 */
@@ -51,16 +34,29 @@ static unsigned int shstroff = 0;	/*维护节名字表的偏移量*/
 static unsigned int shstrsize = 0;	/*维护节名字表的大小*/
 static unsigned int curr_file_size = 0; /*维护初始文件大小*/
 static unsigned int sh_sig_off = 0;//秘钥节的偏移量
-static char sh_sig_buff[ELF_SIG_SH_BUFF_SIZE];
 static unsigned int pre_shdrs_off;//修改文件前的节头表偏移量
 static unsigned int now_shdrs_off;//修改后的节头表偏移量
+
+static unsigned char sh_sig_buff[ELF_SIG_SH_BUFF_SIZE];
+static unsigned int sh_sig_buff_size;
+
 static unsigned char *elf_text_data = NULL;
 static unsigned int elf_text_data_len;
 static unsigned char *user_id = NULL;
 static unsigned int user_id_len = ELF_SIG_USER_ID_LEN;
 
-SM2_KEY_PAIR key_pair;
-SM2_SIGNATURE_STRUCT sm2_sig;
+static SM2_KEY_PAIR key_pair;
+static SM2_SIGNATURE_STRUCT sm2_sig;
+
+static unsigned char pem_pubkey[4096];
+static int pem_pubkey_len;
+static unsigned char pem_privkey[4096];
+static int pem_privkey_len;
+
+static unsigned char *der_pubkey;
+static int der_pubkey_len;
+static unsigned char *der_privkey;
+static int der_privkey_len;
 
 
 

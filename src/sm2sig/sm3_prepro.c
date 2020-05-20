@@ -9,8 +9,8 @@
 
 #include <string.h>
 #include <openssl/evp.h>
-#include "sm2_errno.h"
-#include "sm3_prepro.h"
+#include "sm2sig/sm2_errno.h"
+#include "sm2sig/sm3_prepro.h"
 
 /*********************************************************/
 int sm3_digest_z(const unsigned char *id,

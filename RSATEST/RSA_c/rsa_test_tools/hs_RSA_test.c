@@ -177,6 +177,10 @@ int Generate_RSA_Keys(const int g_nBits,char *pubkey,char *privkey)
 		return -2;
 	}
 	pubkey[pub_len] = '\0';
+
+	for (int i = 0;i < pub_len; ++i){
+		printf ("%02x ",pubkey[i]);
+	}
 		
 	/*释放BIO内存*/
 	BIO_free(pub);
@@ -198,6 +202,9 @@ int Generate_RSA_Keys(const int g_nBits,char *pubkey,char *privkey)
 		return -3;
 	}
 	privkey[pri_len] = '\0';
+	for (int i = 0;i < pub_len; ++i){
+		printf ("%02x ",pubkey[i]);
+	}
 
 	/*释放BIO内存以及RSA和EVP_PKEY结构体*/
 	BIO_free(pri);
@@ -227,6 +234,7 @@ int PublicEncrypt(char *pubkey,char *in_plain,char *cipher)
 	int maxPlain = CryLen / 8 - 11;							/*通过加密长度获取明文的最大加密长度*/
 	int cipherLen = CryLen / 8;								/*通过加密长度获取密文的长度*/
 
+	printf ("\n\n%s\n\n",pubkey);
 	/*从字符串读取RSA公钥*/
 	BIO *enc = NULL; 
 	if ((enc = BIO_new_mem_buf(pubkey, -1)) == NULL)        

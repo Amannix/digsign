@@ -13,9 +13,9 @@
 #include <openssl/bn.h>
 #include <openssl/ec.h>
 
-#include "sm2_errno.h"
-#include "sm3_prepro.h"
-#include "sm2_sig.h"
+#include "sm2sig/sm2_errno.h"
+#include "sm2sig/sm3_prepro.h"
+#include "sm2sig/sm2_sig.h"
 
 /*********************************************************/
 int sm2_sign_data_test(const unsigned char *message,

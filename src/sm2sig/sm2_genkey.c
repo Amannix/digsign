@@ -10,8 +10,8 @@
 #include <openssl/obj_mac.h>
 #include <openssl/bn.h>
 #include <openssl/ec.h>
-#include "sm2_errno.h"
-#include "sm2_genkey.h"
+#include "sm2sig/sm2_errno.h"
+#include "sm2sig/sm2_genkey.h"
 
 /*********************************************************/
 int sm2_create_key_pair(SM2_KEY_PAIR *key_pair)

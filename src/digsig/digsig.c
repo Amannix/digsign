@@ -14,9 +14,11 @@
 #include <getopt.h>
 #include <elf.h>
 
+#include "rsasig/rsa_genkey.h"
 #include "elfrw/elfrw.h"
 #include "digsig/digsig.h"
 #include "digsig/sigtype.h"
+#include "rsasig/md5.h"
 
 /* A simple error-handling function. FALSE is always returned for the
  * convenience of the caller.
@@ -270,7 +272,7 @@ static int modify_shdrs(void)
 	apped_shdr.sh_flags = SHF_MASKOS;
 	apped_shdr.sh_addr = 0;
 	apped_shdr.sh_offset = curr_file_size+64;
-	apped_shdr.sh_size = ELF_SIG_SH_SIZE;
+	apped_shdr.sh_size = sh_sig_buff_size;
 	apped_shdr.sh_link = 0;
 	apped_shdr.sh_info = 0;
 	apped_shdr.sh_addralign = 1;
@@ -288,12 +290,11 @@ static int insert_sh_sig(void)
 {
 	sh_sig_off = pre_shdrs_off + ELF_SIG_SH_TAB_ADD_OFF;//计算秘钥节的偏移量
 
-	fseek(thefile, 0, SEEK_END);
-	if (fwrite(sh_sig_buff, ELF_SIG_SH_SIZE, 1, thefile) != 1){
+	fseek(thefile, 0, SEEK_END);//密钥节放在最尾部的位置
+	if (fwrite(sh_sig_buff, sh_sig_buff_size, 1, thefile) != 1){
 		return ferr("秘钥写入失败！");
 	}
 
-	
 	curr_file_size += (ELF_SIG_SH_TAB_ADD_OFF + ELF_SIG_SH_SIZE);
 	return TRUE;
 }
@@ -351,6 +352,66 @@ er:
 
 static int elf_text_sign(void)
 {
+    unsigned char tempkey[4096];
+    unsigned char  encrypted[4098];
+    int encrypted_length;
+    unsigned char *md5_32h;
+    /*如果密钥生成失败，则使用默认密钥 */
+    if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
+        printf ("RSA密钥生成失败\n");
+        return FALSE;
+    }
+    pem_privkey_len = strlen(pem_privkey);
+    pem_pubkey_len  = strlen(pem_pubkey);
+    printf ("%s",pem_pubkey);
+
+    der_pubkey_len = pubkey_pemtoder(pem_pubkey, &der_pubkey);
+    printf ("%s",pem_privkey);
+    der_privkey_len = privkey_pemtoder(pem_privkey, &der_privkey);
+
+    md5_32h = get_str_md5(elf_text_data,elf_text_data_len);
+
+    printf ("\n=======privkey========\n");
+    for (int i = 0;i < der_privkey_len; ++i){
+        //if (i % 8 == 0) printf(" ");
+        //if (i % 16 == 0) printf ("\n");
+        printf ("\\x%02x", der_privkey[i]);
+    }
+    printf ("\n=======pubkey========\n");
+
+    for (int i = 0;i < der_pubkey_len; ++i){
+       // if (i % 8 == 0) printf(" ");
+        //if (i % 16 == 0) printf ("\n");
+        printf ("\\x%02x", der_pubkey[i]);
+    }
+
+    printf ("\n密钥长度\n%d %d\n\n%d %d\n",pem_privkey_len, der_privkey_len, pem_pubkey_len, der_pubkey_len);
+
+    printf("elf_data:\n");
+    for (int i = 0;i < elf_text_data_len; ++i){
+        printf ("\\x%02x", elf_text_data[i]);
+    }
+    printf ("\nelf_data_md5:\n");
+
+    encrypted_length= private_encrypt(md5_32h,ELF_SIG_SH_MD5_LEN,pem_privkey,encrypted);
+
+    for (int i = 0;i < ELF_SIG_SH_MD5_LEN; ++i){
+        printf ("%c",md5_32h[i]);
+    }
+    printf ("\n\nencrypto_len = %d\n",encrypted_length);
+    for (int i = 0;i < encrypted_length; ++i){
+        printf ("\\x%02x",encrypted[i]);
+    }
+    memcpy(sh_sig_buff, encrypted, ELF_SIG_RSA_KEY_LEN);
+    memcpy(sh_sig_buff + ELF_SIG_RSA_KEY_LEN, der_pubkey, der_pubkey_len);
+    sh_sig_buff_size = ELF_SIG_RSA_KEY_LEN + der_pubkey_len;
+    printf ("\n\nsh_sig_buff_size = %d\n", sh_sig_buff_size);
+    free(md5_32h);
+    return TRUE;
+}
+
+/*static int elf_text_sign(void)
+{
     int error_code,i;
 	//SM2_SIGNATURE_STRUCT sm2_sig;
 	i = 0;
@@ -359,22 +420,6 @@ static int elf_text_sign(void)
 		return FALSE;
 	}
 	printf ("SM2密钥创建成功\n");
-	/*printf("Private key:\n");
-	for (i = 0; i < sizeof(key_pair.pri_key); i++){
-	   printf("0x%x  ", key_pair.pri_key[i]);
-	}
-	printf("\n\n");
-	printf("Public key:\n");*/
-	FILE *hex = fopen("./sig.key", "rb+");
-/*	for (i = 0; i < sizeof(key_pair.pub_key); i++){
-	   printf("0x%x  ", key_pair.pub_key[i]);
-	}*/
-	if (hex != NULL){
-		printf ("write hex\n");
-		fwrite(key_pair.pub_key, sizeof(key_pair.pub_key), 1, hex);
-		fclose(hex);
-	}
-	printf ("\n\n");
 	printf ("len = %d",elf_text_data_len);
 	if ( (error_code = sm2_sign_data(elf_text_data,
 		                        elf_text_data_len,
@@ -390,7 +435,7 @@ static int elf_text_sign(void)
 	memcpy(sh_sig_buff, user_id, ELF_SIG_USER_ID_LEN);
 	memcpy(&sh_sig_buff[ELF_SIG_USER_ID_LEN], key_pair.pub_key, ELF_SIG_SM2_PUBKEY_LEN);
 	memcpy(&sh_sig_buff[ELF_SIG_USER_ID_LEN+ELF_SIG_SM2_PUBKEY_LEN], &sm2_sig, ELF_SIG_SM2_G_COOR_LEN);
-/*	printf("Create SM2 signature succeeded!\n");
+	printf("Create SM2 signature succeeded!\n");
 	printf("SM2 signature:\n");
 	printf("r coordinate:\n");
 	for (i = 0; i < sizeof(sm2_sig.r_coordinate); i++){
@@ -412,11 +457,11 @@ static int elf_text_sign(void)
 	   printf("Verify SM2 signature failed!\n");
 	   return FALSE;
 	}
-	printf("Verify SM2 signature succeeded!\n");*/
+	printf("Verify SM2 signature succeeded!\n");
 
 	return TRUE;
 
-}
+}*/
 
 /* main() loops over the cmdline arguments, leaving all the real work
  * to the other functions.
@@ -427,12 +472,12 @@ int main(int argc, char *argv[])
 	user_id = realloc(user_id, ELF_SIG_USER_ID_LEN);
 	
 	if (user_id == NULL){
-		printf ("内存错误\n");
+		printf ("realloc 内存错误\n");
 		return -1;
 	}
 
 	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
-	thefile = fopen("./hello","rb+");
+	thefile = fopen("/home/xmb/010editor/010editor","rb+");
 	
 	if (thefile == NULL){
 		err(strerror(errno));
@@ -457,26 +502,26 @@ int main(int argc, char *argv[])
 	if (insert_shname() == FALSE){
 		goto er;
 	}
-	
-	//4. 修改节头表与文件头
-	if (commit_changes() == FALSE){
-		goto er;
-	}
 
-	//5. 获取text节数据
+	//4. 获取text节数据
 	if (get_text_data() == FALSE){
 		goto er;
 	}
 
-	//6. 签名并获取密钥
+	//5. 签名并获取密钥
 	if(elf_text_sign() == FALSE){
+		goto er;
+	}
+
+	//6. 修改节头表与文件头
+	if (commit_changes() == FALSE){
 		goto er;
 	}
 
 	//7. 插入密钥
 	if (insert_sh_sig() == FALSE){
 		goto er;
-	}
+    }
 
 er:
 	realloc(user_id, 0);

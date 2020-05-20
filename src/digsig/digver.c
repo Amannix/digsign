@@ -5,14 +5,17 @@
   > Created Time: 2020年04月16日 星期四 21时22分10秒
  ************************************************************************/
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
-#include <unistd.h>
-#include <getopt.h>
-#include <elf.h>
+#include <linux/types.h>
+#include <linux/unistd.h>
+#include <linux/ftrace.h>
+#include <linux/kallsyms.h>
+#include <linux/kernel.h>
+#include <linux/linkage.h>
+#include <linux/module.h>
+#include <linux/slab.h>
+#include <linux/uaccess.h>
+#include <linux/version.h>
+
 
 #include "elfrw/elfrw.h"
 #include "digsig/digver.h"
@@ -21,9 +24,9 @@
 /* A simple error-handling function. FALSE is always returned for the
  * convenience of the caller.
  */
-static int err(char const *errmsg)
+static int err(char const *thefilename, char const *errmsg)
 {
-	fprintf(stderr, "%s: %s: %s\n", theprogram, thefilename, errmsg);
+	pr_info("%s : %s\n",thefilename, errmsg);
 	return FALSE;
 }
 
