@@ -1,0 +1,1 @@
+cmd_/home/xmb/digsign/src/hook/hook.o := ld -m elf_x86_64 -z max-page-size=0x200000   -r -o /home/xmb/digsign/src/hook/hook.o /home/xmb/digsign/src/hook/test.o /home/xmb/digsign/src/hook/ftrace_hook.o 
