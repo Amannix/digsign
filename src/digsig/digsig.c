@@ -18,6 +18,7 @@
 #include "elfrw/elfrw.h"
 #include "digsig/digsig.h"
 #include "digsig/sigtype.h"
+#include "rsasig/sha256.h"
 #include "rsasig/md5.h"
 
 /* A simple error-handling function. FALSE is always returned for the
@@ -356,6 +357,7 @@ static int elf_text_sign(void)
     unsigned char  encrypted[4098];
     int encrypted_length;
     unsigned char *md5_32h;
+    unsigned char sha256_h[ELF_SIG_SH_SHA_LEN] = {0};
     /*如果密钥生成失败，则使用默认密钥 */
     if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
         printf ("RSA密钥生成失败\n");
@@ -370,6 +372,7 @@ static int elf_text_sign(void)
     der_privkey_len = privkey_pemtoder(pem_privkey, &der_privkey);
 
     md5_32h = get_str_md5(elf_text_data,elf_text_data_len);
+    sha256(elf_text_data, elf_text_data_len, sha256_h);
 
     printf ("\n=======privkey========\n");
     for (int i = 0;i < der_privkey_len; ++i){
@@ -391,13 +394,14 @@ static int elf_text_sign(void)
     for (int i = 0;i < elf_text_data_len; ++i){
         printf ("\\x%02x", elf_text_data[i]);
     }
-    printf ("\nelf_data_md5:\n");
+    printf ("\nelf_data_sha256:\n");
 
-    encrypted_length= private_encrypt(md5_32h,ELF_SIG_SH_MD5_LEN,pem_privkey,encrypted);
+    encrypted_length = private_encrypt(sha256_h,ELF_SIG_SH_SHA_LEN,pem_privkey,encrypted);
 
-    for (int i = 0;i < ELF_SIG_SH_MD5_LEN; ++i){
-        printf ("%c",md5_32h[i]);
+    for (int i = 0;i < ELF_SIG_SH_SHA_LEN; ++i){
+        printf ("%02x ",sha256_h[i]);
     }
+
     printf ("\n\nencrypto_len = %d\n",encrypted_length);
     for (int i = 0;i < encrypted_length; ++i){
         printf ("\\x%02x",encrypted[i]);
@@ -477,7 +481,7 @@ int main(int argc, char *argv[])
 	}
 
 	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
-	thefile = fopen("/home/xmb/010editor/010editor","rb+");
+	thefile = fopen("./hello","rb+");
 	
 	if (thefile == NULL){
 		err(strerror(errno));
@@ -498,18 +502,18 @@ int main(int argc, char *argv[])
 		goto er;
 	}
 
-	//3. 插入节名字
-	if (insert_shname() == FALSE){
-		goto er;
-	}
-
-	//4. 获取text节数据
+	//3. 获取text节数据
 	if (get_text_data() == FALSE){
 		goto er;
 	}
 
-	//5. 签名并获取密钥
+	//4. 签名并获取密钥
 	if(elf_text_sign() == FALSE){
+		goto er;
+	}
+
+	//5. 插入节名字
+	if (insert_shname() == FALSE){
 		goto er;
 	}
 

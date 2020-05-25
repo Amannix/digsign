@@ -12,6 +12,7 @@
 #define ELF_SIG_SH_NAME_SIZE		(7)
 #define ELF_SIG_SH_SIZE				(152)
 #define ELF_SIG_SH_MD5_LEN          32
+#define ELF_SIG_SH_SHA_LEN          32
 #define ELF_SIG_USER_ID				"1234567812345678"
 #define ELF_SIG_USER_ID_LEN			16
 

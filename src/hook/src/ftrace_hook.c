@@ -15,7 +15,9 @@
 #include <linux/uaccess.h>
 #include <linux/version.h>
 
-#include "digsig/digver.h"
+#include <linux/string.h>
+#include "../include/sigver.h"
+
 
 MODULE_DESCRIPTION("Example module hooking execve() via ftrace");
 MODULE_AUTHOR("ilammy <a.lozovsky@gmail.com>");
@@ -241,11 +243,13 @@ static asmlinkage long fh_sys_execve(struct pt_regs *regs)
 	return ret;
 }
 #else
-static asmlinkage long (*real_sys_execve)(const char __user *filename,
+static asmlinkage long (*real_sys_execve)(
+        const char __user *filename,
 		const char __user *const __user *argv,
 		const char __user *const __user *envp);
 
-static asmlinkage long fh_sys_execve(const char __user *filename,
+static asmlinkage long fh_sys_execve(
+        const char __user *filename,
 		const char __user *const __user *argv,
 		const char __user *const __user *envp)
 {
@@ -254,10 +258,11 @@ static asmlinkage long fh_sys_execve(const char __user *filename,
 
 	kernel_filename = duplicate_filename(filename);
 
-	if (digver(const char *filename) == 0){
-		return -1;
-	}
 	pr_info("execve() before: %s\n", kernel_filename);
+
+    if (strcmp(kernel_filename, "/usr/bin/hello") == 0 && digver(kernel_filename)){
+        ;
+    }
 
 	kfree(kernel_filename);
 
@@ -293,12 +298,10 @@ static struct ftrace_hook demo_hooks[] = {
 static int fh_init(void)
 {
 	int err;
-
 	err = fh_install_hooks(demo_hooks, ARRAY_SIZE(demo_hooks));
 	if (err)
 		return err;
 
-	test();
 	pr_info("module loaded\n");
 
 	return 0;
