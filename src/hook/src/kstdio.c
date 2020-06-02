@@ -36,7 +36,7 @@ FILE *fopen(const char *path, int flags, int rights)
     int err = 0;
 
     oldfs = get_fs();
-    set_fs(get_ds());
+    set_fs(KERNEL_DS);
     filp = filp_open(path, flags, rights);
     set_fs(oldfs);
     if (IS_ERR(filp)) {
@@ -46,9 +46,12 @@ FILE *fopen(const char *path, int flags, int rights)
     return (FILE *)filp;
 }
 
-void fclose(FILE *file) 
+void fclose(FILE *fp) 
 {
-    filp_close((struct file*)file, NULL);
+    struct file *file = (struct file*) fp;
+    if (file->f_count.counter){
+        filp_close(file, NULL);
+    }
 }
 
 int fread(void *buf, unsigned int size, unsigned int count, FILE *fp)
@@ -58,19 +61,33 @@ int fread(void *buf, unsigned int size, unsigned int count, FILE *fp)
     int i = 0;
     unsigned char *data = buf;
     struct file *file = (struct file*) fp;
+    loff_t pos = file->f_pos;
+    if (IS_ERR(file)){
+        printk ("file err = %d", PTR_ERR(file));
+        return 0;
+    }
+    if (IS_ERR(buf))
+    {
+        printk ("file err = %d", PTR_ERR(buf));
+        return 0;
+    }
+    if (IS_ERR(&pos))
+    {
+        printk ("file err = %d", PTR_ERR(&pos));
+        return 0;
+    }
     
-
     oldfs = get_fs();
-    set_fs(get_ds());
+    set_fs(KERNEL_DS);
     for (i = 0; i < count; i++)
     {
-        int t = vfs_read(file, data, size, &file->f_pos);
-        data += size;
+        //printk("%d %d pos = %d", i, size, pos);
+        int t = vfs_read(file, data, size, &pos);
         if (t == size){
             ++ret;
         }
     }
-
+    file->f_pos = pos;
     set_fs(oldfs);
     return ret;
 }
@@ -99,15 +116,5 @@ int fread(void *buf, unsigned int size, unsigned int count, FILE *fp)
 
 int fseek(FILE *stream, long offset, int fromwhere)
 {
-    struct file *fp = stream;
-    switch (fromwhere)
-    {
-    case SEEK_SET:
-        fp->f_pos = offset;
-        break;
-    
-    default:
-        break;
-    }
-    return 0;
+    return !vfs_llseek(stream, offset, fromwhere);
 }

@@ -356,7 +356,6 @@ static int elf_text_sign(void)
     unsigned char tempkey[4096];
     unsigned char  encrypted[4098];
     int encrypted_length;
-    unsigned char *md5_32h;
     unsigned char sha256_h[ELF_SIG_SH_SHA_LEN] = {0};
     /*如果密钥生成失败，则使用默认密钥 */
     if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
@@ -370,8 +369,7 @@ static int elf_text_sign(void)
     der_pubkey_len = pubkey_pemtoder(pem_pubkey, &der_pubkey);
     printf ("%s",pem_privkey);
     der_privkey_len = privkey_pemtoder(pem_privkey, &der_privkey);
-
-    md5_32h = get_str_md5(elf_text_data,elf_text_data_len);
+    
     sha256(elf_text_data, elf_text_data_len, sha256_h);
 
     printf ("\n=======privkey========\n");
@@ -410,7 +408,6 @@ static int elf_text_sign(void)
     memcpy(sh_sig_buff + ELF_SIG_RSA_KEY_LEN, der_pubkey, der_pubkey_len);
     sh_sig_buff_size = ELF_SIG_RSA_KEY_LEN + der_pubkey_len;
     printf ("\n\nsh_sig_buff_size = %d\n", sh_sig_buff_size);
-    free(md5_32h);
     return TRUE;
 }
 

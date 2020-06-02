@@ -21,7 +21,7 @@ unsigned char *pub_key =   "\x30\x82\x01\x0a\x02\x82\x01\x01\x00\xd8\x0b\x41\xf9
 
 int pub_key_len = 270;
 
-static void hexdump(unsigned char *buf,unsigned int len)
+void hexdump(unsigned char *buf,unsigned int len)
 {
 	int i;
 
@@ -135,7 +135,7 @@ int rdx_akcrypto_enc_dec(void *input, int len, void *output, int phase)
 }
 
 static int __rdx_akcrypto_tfm_sv(struct crypto_akcipher *tfm,
-			void *input, int len, void *output, int phase)
+			void *input, int len, void *output, int phase, unsigned char *key, int key_len)
 {
 	struct akcipher_request *req;
 	void *out_buf = NULL;
@@ -157,11 +157,11 @@ static int __rdx_akcrypto_tfm_sv(struct crypto_akcipher *tfm,
 
 	if (!phase) {
 		pr_debug("set pub key \n");
-		err = crypto_akcipher_set_pub_key(tfm, pub_key, pub_key_len);
+		err = crypto_akcipher_set_pub_key(tfm, key, key_len);
 	} else {
 		pr_debug("set priv key\n");
 		//err = crypto_akcipher_set_pub_key(tfm, pub_key, pub_key_len);
-		err = crypto_akcipher_set_priv_key(tfm, priv_key, priv_key_len);
+		err = crypto_akcipher_set_priv_key(tfm, key, key_len);
 	}
 
 	if (err){
@@ -205,7 +205,7 @@ static int __rdx_akcrypto_tfm_sv(struct crypto_akcipher *tfm,
 			goto free_all;
 		}
 		pr_debug("after verify in out_buf:\n");
-		hexdump(out_buf, out_len_max);
+		//hexdump(out_buf, out_len_max);
 		memcpy(output, out_buf, out_len_max);
 	}
 
@@ -218,17 +218,17 @@ free_xbuf:
 	return err;
 }
 
-int rdx_akcrypto_sign_ver(void *input, int len, void *output, int phase)
+int rdx_akcrypto_sign_ver(void *input, int len, void *output, int phase, unsigned char *key, int key_len)
 {
      struct crypto_akcipher *tfm;
      int err = 0;
-
+     //pr_warn("start ver");
      tfm = crypto_alloc_akcipher("rsa", CRYPTO_ALG_INTERNAL, 0);
      if (IS_ERR(tfm)) {
              pr_err("alg: akcipher: Failed to load tfm for rsa: %ld\n", PTR_ERR(tfm));
              return PTR_ERR(tfm);
      }
-     err = __rdx_akcrypto_tfm_sv(tfm, input, len, output, phase);
+     err = __rdx_akcrypto_tfm_sv(tfm, input, len, output, phase, key, key_len);
 
      crypto_free_akcipher(tfm);
      return err;
@@ -389,6 +389,7 @@ err:
 	return ret;
 }
 
+/*
 int rdx_sign_test(void)
 {
 	int ret = 0;
@@ -419,7 +420,7 @@ err:
 	kfree(m);
 	return ret;
 }
-
+*/
 int rdx_aes_test(void)
 {
 	int ret = 0;

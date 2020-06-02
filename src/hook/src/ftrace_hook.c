@@ -257,19 +257,27 @@ static asmlinkage long fh_sys_execve(
 	char *kernel_filename;
 
 	kernel_filename = duplicate_filename(filename);
-
-	pr_info("execve() before: %s\n", kernel_filename);
-
-    if (strcmp(kernel_filename, "/usr/bin/hello") == 0 && digver(kernel_filename)){
-        ;
+    if (strcmp("/usr/bin/gcc", kernel_filename) == 0 || 
+        strcmp("/usr/bin/cat", kernel_filename) == 0 || 1){
+        pr_info("execve() before: %s\n", kernel_filename);
+        switch ((digver(kernel_filename)))
+        {
+        case SUCCESS:
+            pr_info("SUCCESS");
+            break;
+        case FILEERR:
+            pr_info("FILEERR");
+            break;
+        case NOSIGERR:
+            pr_info("NOSIGERR");
+            break;
+        default:
+            break;
+        }    
     }
-
-	kfree(kernel_filename);
-
-	ret = real_sys_execve(filename, argv, envp);
-
+    ret = real_sys_execve(filename, argv, envp);
 	pr_info("execve() after: %ld\n", ret);
-
+    kfree(kernel_filename);
 	return ret;
 }
 #endif

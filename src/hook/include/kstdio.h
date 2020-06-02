@@ -6,6 +6,11 @@
 #define TRUE 1
 #define FALSE 0
 
+#define SUCCESS 0
+#define FILEERR 1
+#define NOSIGERR 2
+#define OTHERERR 3
+
 
 typedef struct file FILE;
 

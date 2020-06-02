@@ -1,6 +1,5 @@
 // sha256.c
 #include <string.h>
-#include <stdio.h>
 #include "rsasig/sha256.h"
 
 #define rightrotate(w, n) ((w >> n) | (w) << (32-(n)))

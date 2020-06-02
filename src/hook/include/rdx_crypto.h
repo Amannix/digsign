@@ -14,11 +14,11 @@
 #define RDX_RSA_SIGN 1
 #define RDX_RSA_VERIFY 0
 
-int rdx_akcrypto_sign_ver(void *input, int len, void *output, int phase);
+int rdx_akcrypto_sign_ver(void *input, int len, void *output, int phase, unsigned char *key, int key_len);
 int rdx_akcrypto_enc_dec(void *input, int len, void *output, int phase);
 int rdx_sign_test(void);
 int rdx_crypto_test(void);
 int rdx_aes_test(void);
-
+void hexdump(unsigned char *buf,unsigned int len);
 
 #endif /* RDX_CRYPTO_H_ */
