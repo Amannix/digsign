@@ -6,7 +6,7 @@
 #include "openssl/pem.h"
 #include "openssl/evp.h"
 
-int pubkey_pemtoder(unsigned char *pem, unsigned char **der)
+int pubkey_pemtoder(char *pem, unsigned char **der)
 {
     unsigned char tempkey[4096];
     int pem_len = strlen(pem);
@@ -26,7 +26,7 @@ int pubkey_pemtoder(unsigned char *pem, unsigned char **der)
     return der_len - 24;
 }
 
-int privkey_pemtoder(unsigned char *pem, unsigned char **der)
+int privkey_pemtoder(char *pem, unsigned char **der)
 {
     unsigned char tempkey[4096] = {0};
     int pem_len = strlen(pem);
@@ -48,7 +48,7 @@ int privkey_pemtoder(unsigned char *pem, unsigned char **der)
 /*-------------------------------------------------------
  密钥生成过程
 -------------------------------------------------------*/
-int Generate_RSA_Keys(const int g_nBits,unsigned char *pubkey ,unsigned char *privkey)
+int Generate_RSA_Keys(const int g_nBits, char *pubkey , char *privkey)
 {
 	/*---------------------------------------------------
 	 *说明：

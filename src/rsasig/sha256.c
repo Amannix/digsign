@@ -47,7 +47,7 @@ void sha256(const unsigned char *data, size_t len, unsigned char *out) {
     uint32_t w[64];
     bzero(w, 64);
     size_t chunk_len = new_len / 64;
-    for (int idx = 0; idx < chunk_len; idx++) {
+    for (size_t idx = 0; idx < chunk_len; idx++) {
         uint32_t val = 0;
         for (int i = 0; i < 64; i++) {
             val =  val | (*(buf + idx * 64 + i) << (8 * (3 - i)));

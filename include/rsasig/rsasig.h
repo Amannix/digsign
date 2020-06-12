@@ -2,8 +2,7 @@
 #ifndef _RSASIG_H
 #define _RSASIG_H
 
-//#include <../openssl/rsa.h>
-int padding = RSA_PKCS1_PADDING;
+#include "../openssl/rsa.h"
 
 RSA * createRSA(unsigned char * key,int public);
 int public_encrypt(unsigned char * data,int data_len,unsigned char * key, unsigned char *encrypted);

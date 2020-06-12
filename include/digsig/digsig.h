@@ -21,12 +21,11 @@ char *theprogram = NULL;
 
 /* Information for each executable operated upon.
 */
-static char const  *thefilename;	/* the name of the current file */
+static char         thefilename[4096];	/* the name of the current file */
 static FILE        *thefile;		/* the currently open file handle */
 static Elf64_Ehdr   ehdr;		/* the current file's ELF header */
 static Elf64_Phdr  *phdrs;		/* the program segment header table */
 static Elf64_Shdr  *shdrs;		/*the program section header table*/
-static unsigned long       newsize;		/* the proposed new file size */
 
 static Elf64_Shdr apped_shdr; /*新增的秘钥节*/
 static unsigned int shstrndx = 0;	/*维护节名字表的索引*/
@@ -45,12 +44,42 @@ static unsigned int elf_text_data_len;
 static unsigned char *user_id = NULL;
 static unsigned int user_id_len = ELF_SIG_USER_ID_LEN;
 
-static SM2_KEY_PAIR key_pair;
+/*static SM2_KEY_PAIR key_pair;
 static SM2_SIGNATURE_STRUCT sm2_sig;
+*/
 
-static unsigned char pem_pubkey[4096];
+static char *def_pem_privkey = 
+"-----BEGIN PRIVATE KEY-----"\
+"\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDvH2p+PMuehQs9"\
+"\nvpTsc9EdevjBB5GBTUt4ngIujHqnHhmEMd9oo5D7WwGwdrVUTSol5bd6/pdcf9qG"\
+"\nrPZxWTPMh4AHgObR/P5pnagUeimsxvG1B0OmKDZh4pSjmieoFUcy+hHFHH771iu/"\
+"\nJ3IvLxxMEhefL1FGOqk36FuXv8Hxarb4FYsaSkM3JPFpvXiPVE4KiXBdpb0POHAj"\
+"\nAI4SuJ+W0MorvDHgLwnIiZwDU6ChlwotYpToZpPuWEIfUVNB9UwouljT4MEMsgqt"\
+"\nf9KiXZwV8QU4Z8KNl1TQfS4ETIwE6cvmhlSl3G6r9F5MvpwM64itLc+q5WVrUmzp"\
+"\nyDFByRlvAgMBAAECggEAFm+HKWMA49Wt0VRBWtIfC7oO/uV75HrhGucQY1ew5l8v"\
+"\nm7SmNoYqQzsttGXe65L14mpkRbj/cKFaWop98PKipo0MGSgiAA/Ruw0cyRcRM/HS"\
+"\nmd6dnUhmmdaNhbAgCmg8ru7BnhHnZC+bGStVTlIIQKbt6nShForId8NoXJuUUdc3"\
+"\n9YWVhtRRRJcLEf3q5fBmXHjrOzKSuVhQhUQXAnftj7LQWeymIqwHOuxiVmpxk4q7"\
+"\nCOEmAvG3mHK5GZKW+EyPpBhbcwdI20vm9zv0kO4Ab9gSPlpcuFCqIRl+B8CRjQKW"\
+"\n5WoBmrKTV0jkRMSSHx03lHeE7LKPbXYvzMuTGVf/0QKBgQD8bPoBTtULnkbuCfR8"\
+"\na2k2xluNXHNd/HhoD8YMIkk3V/RplgxlYS6fOsoKY5USAaSd9Kf+86t0h6cVy82t"\
+"\nKBuhVIoD8ubZP/LTcTdrEhi1kw03LZ4i/NrkfaKrMOqCwRNHNrBH12IXp62wMjmd"\
+"\n3z03dUVFHO6xsIav28u+lS4jRwKBgQDygjeYw+3IG79tXqlZPLgUBjfOxCvWmrig"\
+"\nYqNzzWyzKJJaJHy2gCkYdLORV0VSoe68LDs8URVxfn4mcZYHJtFNNgaibLT3Y00W"\
+"\n4ZF6eDkvtUk3+tvQVK+DnASjVKtha0zNC2QEXg/XdayS+SL+cPyu0nH0au4pggZY"\
+"\nuGpHlnPcmQKBgFBVekcaSJEXASnWfzltkaF+BTr61jhuFf/ALV5FNxnm4wELYMyO"\
+"\n3iCMvCoMQS/m1/XxG9n2wHUoitNT9hQKdKimV/ojvrYbNPN3z5RCwRxgPU93NCGc"\
+"\naSlYloF24ttUCQeb7wQeFrjCg3NUuKN2nWvd5Xq2V3yzWlnzUGdJ4NIXAoGAawz0"\
+"\ngekrlAQ7sonw88WL9Lrx88JBH9DY42Pnh30NGOE2CbjFnMJiYbtScTw3C80T19km"\
+"\npO+eKaWPBmVptup5xj2tHBIkqHgbVZhpYcikZdz+30lLs2FOwSgkG/2KUczN8E2w"\
+"\n7wSetZvqfE6iFfPGd13Kk/yH+aa+Knft4oAV0TECgYEAkf29XtAEUTqa1VPLOvd9"\
+"\nDx902IatdjHF5YQhXQZANP5eoFA32HOHW71QGVL5LqZ18lZiZfDYNBv9LH115gKA"\
+"\nYKN2Xm/qzPu3m7LZ0sQu2gjlwZ+vQT6goTlHrp5LaI6wLOg2CGJ7VKLgmzTiyKKx"\
+"\nWzKDOlxOUOXzaivjVLpIfpE="\
+"\n-----END PRIVATE KEY-----";
+static char pem_pubkey[4096];
 static int pem_pubkey_len;
-static unsigned char pem_privkey[4096];
+static char pem_privkey[4096];
 static int pem_privkey_len;
 
 static unsigned char *der_pubkey;
@@ -58,7 +87,15 @@ static int der_pubkey_len;
 static unsigned char *der_privkey;
 static int der_privkey_len;
 
+static int rsakey_flag;
+static int csr_flag;
+static int outpub_flag;
+static int outpriv_flag;
+static int in_flag;
+static int help_flag;
 
+static char outpubfilename[4096];
+static char outprivfilename[4096];
 
 /* A macro for I/O errors: The given error message is used only when
  * errno is not set.
@@ -68,7 +105,6 @@ static int der_privkey_len;
 static int err(char const *errmsg);//打印错误信息
 static int read_elf_header(void);//读取文件头
 static int read_shdr_table(void);//读取节头表
-static int show_shdr_table(void);//打印节头表
 static int read_phdr_table(void);//读取程序头表
 static int get_memory_size(void);//获取文件大小
 static int modify_headers(void);//修改文件头
@@ -79,6 +115,6 @@ static int modify_shdrs(void);//修改并插入节头表
 static int insert_sh_sig(void);
 static int get_text_data(void);
 static int elf_text_sign(void);
-
+static int check_arg(char *execname);
 #endif
 

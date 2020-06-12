@@ -20,6 +20,7 @@
 #include "digsig/sigtype.h"
 #include "rsasig/sha256.h"
 #include "rsasig/md5.h"
+#include "rsasig/rsasig.h"
 
 /* A simple error-handling function. FALSE is always returned for the
  * convenience of the caller.
@@ -67,23 +68,6 @@ static int read_shdr_table(void)
 		return FALSE;
 	}
 	return TRUE;
-}
-
-static int show_shdr_table(void)
-{
-	/*for (int i = 0;i < ehdr.e_shnum; ++i){
-		printf ("%d:=======================\n",i);
-		printf ("%d\n",shdrs[i].sh_type);
-		printf ("%d\n",shdrs[i].sh_flags);
-		printf ("%d\n",shdrs[i].sh_addr);
-		printf ("%x\n",shdrs[i].sh_offset);
-		printf ("%d\n",shdrs[i].sh_size);
-		printf ("%d\n",shdrs[i].sh_link);
-		printf ("%d\n",shdrs[i].sh_info);
-		printf ("%d\n",shdrs[i].sh_addralign);
-		printf ("%d\n",shdrs[i].sh_entsize);
-	}*/
-	return 0;
 }
 
 /* readphdrtable() loads the program segment header table into memory.
@@ -176,7 +160,7 @@ static int insert_shname(void)
 	}
 	offset = shstroff + shstrsize;
 	temp_size = curr_file_size - offset;
-	printf ("文件备份%d字节\n",temp_size);
+	//printf ("文件备份%d字节\n",temp_size);
 	if (temp_size <= 0){
 		return err("temp_size 计算错误");
 	}
@@ -223,7 +207,7 @@ static int commit_changes(void)
 	get_memory_size();
 	temp_size = curr_file_size - now_shdrs_off - (ehdr.e_shentsize*(ehdr.e_shnum-1));
 	
-	printf ("备份字节数size = %x\n", temp_size);
+	//printf ("备份字节数size = %x\n", temp_size);
 	if (temp_size < 0){
 		return err("文件备份失败1");
 	}
@@ -259,7 +243,7 @@ static int modify_shdrs(void)
 		if (shdrs[i].sh_offset > shstroff){
 			shdrs[i].sh_offset += ELF_SIG_SH_TAB_ADD_OFF;
 		}
-		printf ("off %lu %lu\n",(unsigned long int)shdrs[i].sh_offset, (unsigned long int)shdrs_end_off);
+		//printf ("off %lu %lu\n",(unsigned long int)shdrs[i].sh_offset, (unsigned long int)shdrs_end_off);
 		if (shdrs[i].sh_offset > shdrs_end_off){
 			shdrs[i].sh_offset += ehdr.e_shentsize;
 		}
@@ -279,7 +263,7 @@ static int modify_shdrs(void)
 	apped_shdr.sh_addralign = 1;
 	apped_shdr.sh_entsize = 0;
 	memcpy(&shdrs[i],&apped_shdr,sizeof(apped_shdr));
-	printf ("%lu %lu\n",sizeof (shdrs), sizeof(apped_shdr));
+	//printf ("%lu %lu\n",sizeof (shdrs), sizeof(apped_shdr));
 	fseek(thefile, ehdr.e_shoff, SEEK_SET);
 	if (elfrw_write_Shdrs(thefile, shdrs, count+1) != count+1){
 		return ferr("修改节头表失败!");
@@ -307,7 +291,7 @@ static int get_text_data(void)
 	int count = ehdr.e_shnum;
 	fpos_t ps;
 	memset(sh_name_temp, 0, shdrs[shstrndx].sh_size);
-	printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
+	//printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
 	if (sh_name_temp == NULL || count == -1){
 		return err("elf_sm2_sign err");
 	}
@@ -319,22 +303,23 @@ static int get_text_data(void)
 	/*for (i = 0;i < shdrs[shstrndx].sh_size; ++i){
 		printf ("%x ", *(sh_name_temp+i));
 	}*/
-	printf ("\n");
+	//printf ("\n");
 	
 	for (i = 0;i < count; ++i){
 		int name = shdrs[i].sh_name;
-		printf ("%d %s\n",name, &sh_name_temp[name]);
+		//printf ("%d %s\n",name, &sh_name_temp[name]);
 		if (strcmp(".text", &sh_name_temp[name]) == 0){
-			elf_text_data = realloc(elf_text_data, shdrs[i].sh_size);
+            unsigned long ssize = shdrs[i].sh_size > 1024*1024 ? 1024*1024 : shdrs[i].sh_size;
+			elf_text_data = realloc(elf_text_data, ssize);
 			if (elf_text_data == NULL){
 				printf ("内存分配失败");
 				goto er;
 			}
-			printf ("%lx\n",shdrs[i].sh_offset);
+			//printf ("%lx\n",shdrs[i].sh_offset);
 			fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
-			fread(elf_text_data, shdrs[i].sh_size, 1, thefile);
-			printf ("%lx\n",shdrs[i].sh_size);
-			elf_text_data_len = shdrs[i].sh_size;
+			fread(elf_text_data, ssize, 1, thefile);
+			//printf ("%lx\n",ssize);
+			elf_text_data_len = ssize;
 			/*for (int j = 0;j < shdrs[i].sh_size; ++j){
 				printf ("0x%02x",elf_text_data[j]);
 			}*/
@@ -353,122 +338,123 @@ er:
 
 static int elf_text_sign(void)
 {
-    unsigned char tempkey[4096];
     unsigned char  encrypted[4098];
     int encrypted_length;
     unsigned char sha256_h[ELF_SIG_SH_SHA_LEN] = {0};
-    /*如果密钥生成失败，则使用默认密钥 */
-    if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
-        printf ("RSA密钥生成失败\n");
-        return FALSE;
-    }
-    pem_privkey_len = strlen(pem_privkey);
-    pem_pubkey_len  = strlen(pem_pubkey);
-    printf ("%s",pem_pubkey);
 
-    der_pubkey_len = pubkey_pemtoder(pem_pubkey, &der_pubkey);
-    printf ("%s",pem_privkey);
-    der_privkey_len = privkey_pemtoder(pem_privkey, &der_privkey);
-    
     sha256(elf_text_data, elf_text_data_len, sha256_h);
+    
+    if (!csr_flag){
+        pem_privkey_len = strlen(def_pem_privkey);
+        memcpy(pem_privkey, def_pem_privkey, pem_privkey_len);
+        printf ("%s\n",pem_privkey);
+    }else{
+        /*如果密钥生成失败，则使用默认密钥 */
+        if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
+            printf ("RSA密钥生成失败\n");
+            return FALSE;
+        }else{
+            pem_privkey_len = strlen(pem_privkey);
+            pem_pubkey_len  = strlen(pem_pubkey);
+            printf ("%s\n",pem_pubkey);
+            der_pubkey_len = pubkey_pemtoder(pem_pubkey, &der_pubkey);
+            printf ("%s\n",pem_privkey);
+            der_privkey_len = privkey_pemtoder(pem_privkey, &der_privkey);
 
-    printf ("\n=======privkey========\n");
-    for (int i = 0;i < der_privkey_len; ++i){
-        //if (i % 8 == 0) printf(" ");
-        //if (i % 16 == 0) printf ("\n");
-        printf ("\\x%02x", der_privkey[i]);
+            printf ("\n=======pubkey========\n");
+            for (int i = 0;i < der_pubkey_len; ++i){
+                printf ("\\x%02x", der_pubkey[i]);
+            }
+            printf ("\n=======privkey========\n");
+            for (int i = 0;i < der_privkey_len; ++i){
+                printf ("\\x%02x", der_privkey[i]);
+            }
+        }
     }
-    printf ("\n=======pubkey========\n");
-
-    for (int i = 0;i < der_pubkey_len; ++i){
-       // if (i % 8 == 0) printf(" ");
-        //if (i % 16 == 0) printf ("\n");
-        printf ("\\x%02x", der_pubkey[i]);
+    
+    encrypted_length = private_encrypt(sha256_h,ELF_SIG_SH_SHA_LEN, (unsigned char *)pem_privkey, (unsigned char *)encrypted);
+    //printf("encr %d\n",encrypted_length);
+    if (rsakey_flag){
+        memcpy(sh_sig_buff, encrypted, encrypted_length);
+        sh_sig_buff_size = encrypted_length;
+    }else{
+        memcpy(sh_sig_buff, encrypted, encrypted_length);
+        memcpy(sh_sig_buff + encrypted_length, der_pubkey, der_pubkey_len);
+        sh_sig_buff_size = encrypted_length + der_pubkey_len;
     }
 
-    printf ("\n密钥长度\n%d %d\n\n%d %d\n",pem_privkey_len, der_privkey_len, pem_pubkey_len, der_pubkey_len);
-
-    printf("elf_data:\n");
-    for (int i = 0;i < elf_text_data_len; ++i){
-        printf ("\\x%02x", elf_text_data[i]);
-    }
-    printf ("\nelf_data_sha256:\n");
-
-    encrypted_length = private_encrypt(sha256_h,ELF_SIG_SH_SHA_LEN,pem_privkey,encrypted);
-
-    for (int i = 0;i < ELF_SIG_SH_SHA_LEN; ++i){
-        printf ("%02x ",sha256_h[i]);
-    }
-
-    printf ("\n\nencrypto_len = %d\n",encrypted_length);
-    for (int i = 0;i < encrypted_length; ++i){
-        printf ("\\x%02x",encrypted[i]);
-    }
-    memcpy(sh_sig_buff, encrypted, ELF_SIG_RSA_KEY_LEN);
-    memcpy(sh_sig_buff + ELF_SIG_RSA_KEY_LEN, der_pubkey, der_pubkey_len);
-    sh_sig_buff_size = ELF_SIG_RSA_KEY_LEN + der_pubkey_len;
-    printf ("\n\nsh_sig_buff_size = %d\n", sh_sig_buff_size);
     return TRUE;
 }
 
-/*static int elf_text_sign(void)
+static int check_arg(char *execname)
 {
-    int error_code,i;
-	//SM2_SIGNATURE_STRUCT sm2_sig;
-	i = 0;
-	if ((error_code = sm2_create_key_pair(&key_pair)) ){
-		printf ("SM2密钥创建失败\n");
-		return FALSE;
-	}
-	printf ("SM2密钥创建成功\n");
-	printf ("len = %d",elf_text_data_len);
-	if ( (error_code = sm2_sign_data(elf_text_data,
-		                        elf_text_data_len,
-								user_id,
-								user_id_len,
-								key_pair.pub_key,
-								key_pair.pri_key,
-								&sm2_sig)) ){
-	   printf("Create SM2 signature failed!\n");
-	   return FALSE;
-	}
-
-	memcpy(sh_sig_buff, user_id, ELF_SIG_USER_ID_LEN);
-	memcpy(&sh_sig_buff[ELF_SIG_USER_ID_LEN], key_pair.pub_key, ELF_SIG_SM2_PUBKEY_LEN);
-	memcpy(&sh_sig_buff[ELF_SIG_USER_ID_LEN+ELF_SIG_SM2_PUBKEY_LEN], &sm2_sig, ELF_SIG_SM2_G_COOR_LEN);
-	printf("Create SM2 signature succeeded!\n");
-	printf("SM2 signature:\n");
-	printf("r coordinate:\n");
-	for (i = 0; i < sizeof(sm2_sig.r_coordinate); i++){
-	   printf("0x%x,", sm2_sig.r_coordinate[i]);
-	}
-	printf("\n");
-	printf("s coordinate:\n");
-	for (i = 0; i < sizeof(sm2_sig.s_coordinate); i++){
-	   printf("0x%x,", sm2_sig.s_coordinate[i]);
-	}
-	printf("\n\n");
-
-	if ( error_code = sm2_verify_sig(elf_text_data,
-									 elf_text_data_len,
-									 user_id,
-									 user_id_len,
-									 key_pair.pub_key,
-									 &sm2_sig) ){
-	   printf("Verify SM2 signature failed!\n");
-	   return FALSE;
-	}
-	printf("Verify SM2 signature succeeded!\n");
-
-	return TRUE;
-
-}*/
+    if (help_flag){
+        printf("%s 帮助信息1
+        \n", execname);
+        return FALSE;
+    }
+    if (rsakey_flag && csr_flag){
+        printf("%s 不能同时选择公私钥模式和数字证书模式\n", execname);
+        return FALSE;
+    }
+    if (in_flag == 0){
+        printf("%s 必须输入可执行程序路径\n",execname);
+        return FALSE;
+    }
+    return TRUE;
+}
 
 /* main() loops over the cmdline arguments, leaving all the real work
  * to the other functions.
  */
 int main(int argc, char *argv[])
 {
+    int opt;
+    int option_index = 0;
+    char *string = "";
+    static struct option long_options[] =
+    {
+        {"help", no_argument,NULL, '0'},
+        {"csr", no_argument,NULL, '1'},
+        {"rsakey",  no_argument, NULL,'2'},
+        {"outpub", required_argument, NULL, '3'},
+        {"outpriv", required_argument, NULL, '4'},
+        {"in", required_argument, NULL, '5'},
+        {NULL, 0, NULL, 0},
+    };
+    while((opt =getopt_long_only(argc,argv,string,long_options,&option_index))!= -1)
+    {
+        switch (opt)
+        {
+        case '0':
+            help_flag = 1;
+            break;
+        case '1':
+            csr_flag = 1;
+            break;
+        case '2':
+            rsakey_flag = 1;
+            break;
+        case '3':
+            outpub_flag = 1;
+            memcpy(outpubfilename, optarg, strlen(optarg));
+            break;
+        case '4':
+            outpriv_flag = 1;
+            memcpy(outprivfilename, optarg, strlen(optarg));
+            break;
+        case '5':
+            in_flag = 1;
+            memcpy(thefilename, optarg, strlen(optarg));
+            break;
+        default:
+            break;
+        }
+    }
+    if (check_arg(argv[0]) == FALSE){
+        return 0;
+    }
+    //return 0;
 	printf ("程序开始\n");
 	user_id = realloc(user_id, ELF_SIG_USER_ID_LEN);
 	
@@ -478,7 +464,7 @@ int main(int argc, char *argv[])
 	}
 
 	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
-	thefile = fopen("./hello","rb+");
+	thefile = fopen(thefilename,"rb+");
 	
 	if (thefile == NULL){
 		err(strerror(errno));

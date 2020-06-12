@@ -1,6 +1,6 @@
 #include <memory.h>
-#include "rsasig/md5.h"
- 
+#include "../../include/ksig/md5.h"
+
 unsigned char PADDING[]={0x80,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                          0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -179,7 +179,7 @@ unsigned char* get_str_md5(unsigned char *plaintText, int plain_len)
 	MD5Init(&md5);         		
 	MD5Update(&md5,plaintText,plain_len);
 	MD5Final(&md5,md5Value);
-	unsigned char* buff = (unsigned char*)malloc(33);
+	char* buff = (char*)malloc(33);
 	memset(buff, 0, 33);
 	for (int i = 0; i < 16; i++){
         buff[2*i] = hex_to_char((md5Value[i] >> 4) & 0x0f);

@@ -1,8 +1,14 @@
 KERNEL_PATH ?= /lib/modules/$(shell uname -r)/build
-VPATH := ./include ./src
 
 obj-m += hook.o
-hook-objs := src/sha256.o src/rdx_crypto.o src/ftrace_hook.o src/sigver.o src/kstdio.o src/elfrw.o src/elfrw_ehdr.o src/elfrw_shdr.o
+hook-objs := src/ksig/sha256.o\
+             src/ksig/rdx_crypto.o\
+             src/kftrace/ftrace_hook.o\
+             src/ksig/sigver.o\
+             src/kstd/kstdio.o\
+             src/kelf/elfrw.o\
+             src/kelf/elfrw_ehdr.o\
+             src/kelf/elfrw_shdr.o
 
 all:
 	make -C $(KERNEL_PATH) M=$(PWD) modules

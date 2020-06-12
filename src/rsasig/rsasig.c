@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include "rsasig/rsasig.h"
 
+static int padding = RSA_PKCS1_PADDING;
+
 RSA * createRSA(unsigned char * key,int public)
 {
     RSA *rsa= NULL;

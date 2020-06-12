@@ -67,11 +67,10 @@ int base64_decode(unsigned char *code,unsigned char **buff)
     int i,j;  
 //计算解码后的字符串长度  
     len=strlen((const char *)code);
-    printf ("%ld\n",len);
 //判断编码后的字符串后是否有=  
-    if(strstr((const char *)code,"=="))
+    if(strstr((const char *)code,(const char *)"=="))
         str_len=len/4*3-2;  
-    else if(strstr(code,"="))  
+    else if(strstr((const char *)code,(const char *)"="))  
         str_len=len/4*3-1;  
     else  
         str_len=len/4*3;  
