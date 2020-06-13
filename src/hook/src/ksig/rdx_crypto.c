@@ -21,17 +21,6 @@ unsigned char *pub_key = "\x30\x82\x01\x0a\x02\x82\x01\x01\x00\xef\x1f\x6a\x7e\x
 
 int pub_key_len = 270;
 
-void hexdump(unsigned char *buf,unsigned int len)
-{
-	int i;
-
-	for (i = 0; i < len; i++) {
-		pr_warn(KERN_CONT "%02X", buf[i]);
-	}
-	pr_warn("\n");
-}
-
-
 static int __rdx_akcrypto_tfm(struct crypto_akcipher *tfm,
 			void *input, int len, void *output, int phase)
 {

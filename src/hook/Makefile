@@ -8,7 +8,13 @@ hook-objs := src/ksig/sha256.o\
              src/kstd/kstdio.o\
              src/kelf/elfrw.o\
              src/kelf/elfrw_ehdr.o\
-             src/kelf/elfrw_shdr.o
+             src/kelf/elfrw_shdr.o\
+			 src/kcrt/x509_crt.o\
+			 src/kcrt/pem.o\
+			 src/kcrt/x509.o\
+			 src/kstd/hexdump.o\
+			 src/kcrt/asn1parse.o\
+			 src/kcrt/base64.o
 
 all:
 	make -C $(KERNEL_PATH) M=$(PWD) modules
