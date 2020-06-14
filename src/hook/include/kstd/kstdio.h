@@ -11,6 +11,7 @@
 #define NOSIGERR 2
 #define OTHERERR 3
 #define FAULTERR 4
+#define CRTERR 5
 
 
 typedef struct file FILE;

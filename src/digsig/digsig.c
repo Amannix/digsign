@@ -344,13 +344,22 @@ static int elf_text_sign(void)
 
     sha256(elf_text_data, elf_text_data_len, sha256_h);
     
-    if (!csr_flag){
+    if (!crt_flag){//公私钥模式下使用默认的私钥进行加密
         pem_privkey_len = strlen(def_pem_privkey);
         memcpy(pem_privkey, def_pem_privkey, pem_privkey_len);
         printf ("%s\n",pem_privkey);
     }else{
+
+        FILE* privfile = fopen(privatefilename, "r");
+        fseek(privfile, 0, SEEK_END);
+        pem_privkey_len = ftell(privfile);
+        fseek(privfile, 0, SEEK_SET);
+        fread(pem_privkey, pem_privkey_len, 1, privfile);
+        pem_privkey[pem_privkey_len] = 0;
+        printf("%s",pem_privkey);
+        fclose(privfile);
         /*如果密钥生成失败，则使用默认密钥 */
-        if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
+        /*if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
             printf ("RSA密钥生成失败\n");
             return FALSE;
         }else{
@@ -369,18 +378,26 @@ static int elf_text_sign(void)
             for (int i = 0;i < der_privkey_len; ++i){
                 printf ("\\x%02x", der_privkey[i]);
             }
-        }
+        }*/
     }
     
     encrypted_length = private_encrypt(sha256_h,ELF_SIG_SH_SHA_LEN, (unsigned char *)pem_privkey, (unsigned char *)encrypted);
     //printf("encr %d\n",encrypted_length);
-    if (rsakey_flag){
-        memcpy(sh_sig_buff, encrypted, encrypted_length);
-        sh_sig_buff_size = encrypted_length;
-    }else{
-        memcpy(sh_sig_buff, encrypted, encrypted_length);
-        memcpy(sh_sig_buff + encrypted_length, der_pubkey, der_pubkey_len);
-        sh_sig_buff_size = encrypted_length + der_pubkey_len;
+    memcpy(sh_sig_buff, encrypted, encrypted_length);
+    sh_sig_buff_size = encrypted_length;
+    if (crt_flag){
+        FILE* crtfile = fopen(crtfilename, "r");
+        long int crtfile_len;
+        char tbuff[2048];
+        fseek(crtfile, 0, SEEK_END);
+        crtfile_len = ftell(crtfile);
+        fseek(crtfile, 0, SEEK_SET);
+        fread(tbuff, crtfile_len, 1, crtfile);
+        fclose(crtfile);
+        printf("\n\n%s\n\n", tbuff);
+        printf ("\n\n%d\n", crtfile_len-26-28);
+        memcpy(sh_sig_buff+sh_sig_buff_size, tbuff+28, crtfile_len-26-28);
+        sh_sig_buff_size += crtfile_len-25-27;
     }
 
     return TRUE;
@@ -388,19 +405,27 @@ static int elf_text_sign(void)
 
 static int check_arg(char *execname)
 {
-    if (help_flag){
-        printf("%s 帮助信息1
-        \n", execname);
+    if (erropt_flag){
+        printf ("%s 参数错误：未知的参数\n", execname);
         return FALSE;
     }
-    if (rsakey_flag && csr_flag){
+    if (help_flag){
+        printf("%s 帮助信息1\n", execname);
+        return FALSE;
+    }
+    if (rsakey_flag && crt_flag){
         printf("%s 不能同时选择公私钥模式和数字证书模式\n", execname);
+        return FALSE;
+    }
+    if (crt_flag && !inpriv_flag){
+        printf("%s 证书验证模式下必须输入私钥文件\n", execname);
         return FALSE;
     }
     if (in_flag == 0){
         printf("%s 必须输入可执行程序路径\n",execname);
         return FALSE;
     }
+
     return TRUE;
 }
 
@@ -415,11 +440,12 @@ int main(int argc, char *argv[])
     static struct option long_options[] =
     {
         {"help", no_argument,NULL, '0'},
-        {"csr", no_argument,NULL, '1'},
+        {"crt", required_argument,NULL, '1'},
         {"rsakey",  no_argument, NULL,'2'},
         {"outpub", required_argument, NULL, '3'},
         {"outpriv", required_argument, NULL, '4'},
         {"in", required_argument, NULL, '5'},
+        {"inkey", required_argument, NULL, '6'},
         {NULL, 0, NULL, 0},
     };
     while((opt =getopt_long_only(argc,argv,string,long_options,&option_index))!= -1)
@@ -430,7 +456,8 @@ int main(int argc, char *argv[])
             help_flag = 1;
             break;
         case '1':
-            csr_flag = 1;
+            crt_flag = 1;
+            memcpy(crtfilename, optarg, strlen(optarg));
             break;
         case '2':
             rsakey_flag = 1;
@@ -447,7 +474,12 @@ int main(int argc, char *argv[])
             in_flag = 1;
             memcpy(thefilename, optarg, strlen(optarg));
             break;
+        case '6':
+            inpriv_flag = 1;
+            memcpy(privatefilename, optarg, strlen(optarg));
+            break;
         default:
+            erropt_flag = 1;
             break;
         }
     }
@@ -456,14 +488,7 @@ int main(int argc, char *argv[])
     }
     //return 0;
 	printf ("程序开始\n");
-	user_id = realloc(user_id, ELF_SIG_USER_ID_LEN);
-	
-	if (user_id == NULL){
-		printf ("realloc 内存错误\n");
-		return -1;
-	}
 
-	memcpy(user_id, ELF_SIG_USER_ID, ELF_SIG_USER_ID_LEN);
 	thefile = fopen(thefilename,"rb+");
 	
 	if (thefile == NULL){
@@ -511,7 +536,6 @@ int main(int argc, char *argv[])
     }
 
 er:
-	realloc(user_id, 0);
 	realloc(elf_text_data, 0);
 	realloc(shdrs, 0);
 	realloc(phdrs, 0);

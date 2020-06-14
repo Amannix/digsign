@@ -731,6 +731,9 @@ deps_/home/xmb/digsign/src/hook/src/ksig/sigver.o := \
   /home/xmb/digsign/src/hook/src/ksig/../../include/kelf/../kstd/kstdio.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/rdx_crypto.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/sha256.h \
+  /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/crtver.h \
+  /home/xmb/digsign/src/hook/src/ksig/../../include/kcrt/base64.h \
+  /home/xmb/digsign/src/hook/src/ksig/../../include/kcrt/stddef.h \
 
 /home/xmb/digsign/src/hook/src/ksig/sigver.o: $(deps_/home/xmb/digsign/src/hook/src/ksig/sigver.o)
 

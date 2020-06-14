@@ -14,7 +14,8 @@ hook-objs := src/ksig/sha256.o\
 			 src/kcrt/x509.o\
 			 src/kstd/hexdump.o\
 			 src/kcrt/asn1parse.o\
-			 src/kcrt/base64.o
+			 src/kcrt/base64.o\
+			 src/ksig/crtver.o
 
 all:
 	make -C $(KERNEL_PATH) M=$(PWD) modules

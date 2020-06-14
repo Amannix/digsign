@@ -21,7 +21,7 @@ char *theprogram = NULL;
 
 /* Information for each executable operated upon.
 */
-static char         thefilename[4096];	/* the name of the current file */
+static char         thefilename[1024];	/* the name of the current file */
 static FILE        *thefile;		/* the currently open file handle */
 static Elf64_Ehdr   ehdr;		/* the current file's ELF header */
 static Elf64_Phdr  *phdrs;		/* the program segment header table */
@@ -36,13 +36,12 @@ static unsigned int sh_sig_off = 0;//秘钥节的偏移量
 static unsigned int pre_shdrs_off;//修改文件前的节头表偏移量
 static unsigned int now_shdrs_off;//修改后的节头表偏移量
 
-static unsigned char sh_sig_buff[ELF_SIG_SH_BUFF_SIZE];
+static unsigned char sh_sig_buff[4096];
 static unsigned int sh_sig_buff_size;
 
 static unsigned char *elf_text_data = NULL;
 static unsigned int elf_text_data_len;
-static unsigned char *user_id = NULL;
-static unsigned int user_id_len = ELF_SIG_USER_ID_LEN;
+
 
 /*static SM2_KEY_PAIR key_pair;
 static SM2_SIGNATURE_STRUCT sm2_sig;
@@ -77,6 +76,8 @@ static char *def_pem_privkey =
 "\nYKN2Xm/qzPu3m7LZ0sQu2gjlwZ+vQT6goTlHrp5LaI6wLOg2CGJ7VKLgmzTiyKKx"\
 "\nWzKDOlxOUOXzaivjVLpIfpE="\
 "\n-----END PRIVATE KEY-----";
+static char pem_crt[4096];
+static long int pem_crt_len;
 static char pem_pubkey[4096];
 static int pem_pubkey_len;
 static char pem_privkey[4096];
@@ -87,15 +88,19 @@ static int der_pubkey_len;
 static unsigned char *der_privkey;
 static int der_privkey_len;
 
-static int rsakey_flag;
-static int csr_flag;
-static int outpub_flag;
-static int outpriv_flag;
-static int in_flag;
-static int help_flag;
+static int rsakey_flag;//公私钥模式
+static int crt_flag;//证书模式
+static int outpub_flag;//输出公钥
+static int outpriv_flag;//输出私钥
+static int in_flag;//输入可执行文件
+static int help_flag;//帮助信息
+static int erropt_flag;//参数错误
+static int inpriv_flag;//输入私钥文件
 
-static char outpubfilename[4096];
-static char outprivfilename[4096];
+static char outpubfilename[1024];//公钥文件输出路径
+static char outprivfilename[1024];//私钥文件输出路径
+static char crtfilename[1024];//证书输入路径
+static char privatefilename[1024];//私钥输入路径
 
 /* A macro for I/O errors: The given error message is used only when
  * errno is not set.
