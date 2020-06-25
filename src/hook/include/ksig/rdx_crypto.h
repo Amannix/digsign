@@ -19,6 +19,5 @@ int rdx_akcrypto_enc_dec(void *input, int len, void *output, int phase);
 int rdx_sign_test(void);
 int rdx_crypto_test(void);
 int rdx_aes_test(void);
-void hexdump(unsigned char *buf,unsigned int len);
 
 #endif /* RDX_CRYPTO_H_ */

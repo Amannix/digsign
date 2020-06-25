@@ -11,6 +11,7 @@
 #include <linux/random.h>
 
 #include "../../include/ksig/rdx_crypto.h"
+#include "../../include/kstd/hexdump.h"
 
 #define  KEY_LEN 256
 unsigned  char *priv_key;

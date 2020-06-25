@@ -394,10 +394,19 @@ static int elf_text_sign(void)
         fseek(crtfile, 0, SEEK_SET);
         fread(tbuff, crtfile_len, 1, crtfile);
         fclose(crtfile);
-        printf("\n\n%s\n\n", tbuff);
+        /*printf("\n\n%s\n\n", tbuff);
         printf ("\n\n%d\n", crtfile_len-26-28);
         memcpy(sh_sig_buff+sh_sig_buff_size, tbuff+28, crtfile_len-26-28);
+        printf ("%d\n\n", sh_sig_buff_size);
         sh_sig_buff_size += crtfile_len-25-27;
+        printf ("%d\n\n", sh_sig_buff_size);
+        */
+        printf ("\n\ntbuf = \n %s \n\n", tbuff);
+        printf ("crtfile_len %d\n\n", crtfile_len);
+        memcpy(sh_sig_buff+sh_sig_buff_size, tbuff, crtfile_len);
+        printf ("%d\n\n", sh_sig_buff_size);
+        sh_sig_buff_size += crtfile_len;
+        printf ("%d\n\n", sh_sig_buff_size);
     }
 
     return TRUE;

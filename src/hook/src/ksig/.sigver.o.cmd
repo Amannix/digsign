@@ -727,6 +727,7 @@ deps_/home/xmb/digsign/src/hook/src/ksig/sigver.o := \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/../kstd/kstdio.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/../../../../include/digsig/sigtype.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/kstd/kstdio.h \
+  /home/xmb/digsign/src/hook/src/ksig/../../include/kstd/hexdump.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/kelf/elfrw.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/kelf/../kstd/kstdio.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/rdx_crypto.h \

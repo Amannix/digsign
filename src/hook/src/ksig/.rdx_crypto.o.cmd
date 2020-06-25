@@ -824,6 +824,7 @@ deps_/home/xmb/digsign/src/hook/src/ksig/rdx_crypto.o := \
   include/uapi/linux/irqnr.h \
   arch/x86/include/asm/archrandom.h \
   /home/xmb/digsign/src/hook/src/ksig/../../include/ksig/rdx_crypto.h \
+  /home/xmb/digsign/src/hook/src/ksig/../../include/kstd/hexdump.h \
 
 /home/xmb/digsign/src/hook/src/ksig/rdx_crypto.o: $(deps_/home/xmb/digsign/src/hook/src/ksig/rdx_crypto.o)
 
