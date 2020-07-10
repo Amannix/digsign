@@ -1,4 +1,4 @@
-/* elfrw.h: The elfrw library's internally shared functions.
+/* elfrw.h: The elfrw library's exported functions.
  * Copyright (C) 2011 by Brian Raiter <breadbox@muppetlabs.com>
  * License GPLv2+: GNU GPL version 2 or later.
  * This is free software; you are free to change and redistribute it.

@@ -1,10 +1,3 @@
-/*
- * rdx_crypto.h
- *
- *  Created on: 30 may 2018.
- *      Author: alekseym
- */
-
 #ifndef RDX_CRYPTO_H_
 #define RDX_CRYPTO_H_
 

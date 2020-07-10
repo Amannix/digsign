@@ -1,9 +1,3 @@
-/*************************************************************************
-  > File Name: digsig.c
-  > Author: xmb
-  > Mail: 1785175681@qq.com 
-  > Created Time: 2020年04月16日 星期四 21时22分10秒
- ************************************************************************/
 
 #include <linux/types.h>
 #include <linux/unistd.h>
@@ -32,11 +26,11 @@ static int read_elf_header(FILE *thefile, Elf64_Ehdr *ehdr)
 {
     fseek(thefile, 0, SEEK_SET);
 	if (elfrw_read_Ehdr(thefile, ehdr) != 1){
-        pr_warn("not a valid ELF file");
+        pr_warn("非法ELF文件头");
         return FALSE;
     }
 	if (ehdr->e_type != ET_EXEC && ehdr->e_type != ET_DYN){
-        pr_warn("not an executable or shared-object library.");
+        pr_warn("非可执行文件");
         return FALSE;
     }
 
@@ -58,7 +52,7 @@ static int read_shdr_table(FILE *thefile, Elf64_Ehdr ehdr, Elf64_Shdr *shdrs)
 
 	count = elfrw_read_Shdrs(thefile, shdrs, ehdr.e_shnum);
 	if (count != ehdr.e_shnum){
-		pr_warn("missing or incomplete program section header table.");
+		pr_warn("程序节头表丢失或不完整。");
         return FALSE;
 	}
 	return TRUE;
@@ -125,7 +119,7 @@ static int get_sig_buff(FILE *thefile, Elf64_Ehdr ehdr,Elf64_Shdr *shdrs,
 
 	if (sh_name_temp == NULL || count == -1){
         kfree(sh_name_temp);
-		return err("elf_sm2_sign err");
+		return err("get_sig_buff err");
 	}
 	
 	fseek(thefile, shdrs[shstrndx].sh_offset, SEEK_SET);
@@ -214,16 +208,15 @@ static int checkcrt(const unsigned char *sh_sig_buff,int sh_sig_buff_size, unsig
         goto err;
 	}
     keylen++;
-    printk("[PEM]Pubkey: %u\n", keylen);
+    //printk("[PEM]Pubkey: %u\n", keylen);
     hexdump(key, keylen);
 
-    printk("[PEM]Serial: %u\n", idlen);
+    //printk("[PEM]Serial: %u\n", idlen);
     hexdump(id, idlen);
-
 
     return keylen;
     err:
-    printk("crtber falut");
+    //printk("crtber falut");
 	return FALSE;
 }
 
@@ -304,8 +297,10 @@ int digver (const char *filename)
     static unsigned char encrypto[256];//密文缓冲区
     static unsigned char *def_pub_key = "\x30\x82\x01\x0a\x02\x82\x01\x01\x00\xef\x1f\x6a\x7e\x3c\xcb\x9e\x85\x0b\x3d\xbe\x94\xec\x73\xd1\x1d\x7a\xf8\xc1\x07\x91\x81\x4d\x4b\x78\x9e\x02\x2e\x8c\x7a\xa7\x1e\x19\x84\x31\xdf\x68\xa3\x90\xfb\x5b\x01\xb0\x76\xb5\x54\x4d\x2a\x25\xe5\xb7\x7a\xfe\x97\x5c\x7f\xda\x86\xac\xf6\x71\x59\x33\xcc\x87\x80\x07\x80\xe6\xd1\xfc\xfe\x69\x9d\xa8\x14\x7a\x29\xac\xc6\xf1\xb5\x07\x43\xa6\x28\x36\x61\xe2\x94\xa3\x9a\x27\xa8\x15\x47\x32\xfa\x11\xc5\x1c\x7e\xfb\xd6\x2b\xbf\x27\x72\x2f\x2f\x1c\x4c\x12\x17\x9f\x2f\x51\x46\x3a\xa9\x37\xe8\x5b\x97\xbf\xc1\xf1\x6a\xb6\xf8\x15\x8b\x1a\x4a\x43\x37\x24\xf1\x69\xbd\x78\x8f\x54\x4e\x0a\x89\x70\x5d\xa5\xbd\x0f\x38\x70\x23\x00\x8e\x12\xb8\x9f\x96\xd0\xca\x2b\xbc\x31\xe0\x2f\x09\xc8\x89\x9c\x03\x53\xa0\xa1\x97\x0a\x2d\x62\x94\xe8\x66\x93\xee\x58\x42\x1f\x51\x53\x41\xf5\x4c\x28\xba\x58\xd3\xe0\xc1\x0c\xb2\x0a\xad\x7f\xd2\xa2\x5d\x9c\x15\xf1\x05\x38\x67\xc2\x8d\x97\x54\xd0\x7d\x2e\x04\x4c\x8c\x04\xe9\xcb\xe6\x86\x54\xa5\xdc\x6e\xab\xf4\x5e\x4c\xbe\x9c\x0c\xeb\x88\xad\x2d\xcf\xaa\xe5\x65\x6b\x52\x6c\xe9\xc8\x31\x41\xc9\x19\x6f\x02\x03\x01\x00\x01";
     static unsigned int def_pub_key_len = 270;
-    
-    /*static unsigned char *def_pem_pubkey = 
+
+#ifdef def_pem_pubkey
+
+    static unsigned char *def_pem_pubkey = 
     "-----BEGIN PUBLIC KEY-----"\
     "\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7x9qfjzLnoULPb6U7HPR"\
     "\nHXr4wQeRgU1LeJ4CLox6px4ZhDHfaKOQ+1sBsHa1VE0qJeW3ev6XXH/ahqz2cVkz"\
@@ -315,7 +310,8 @@ int digver (const char *filename)
     "\nFfEFOGfCjZdU0H0uBEyMBOnL5oZUpdxuq/ReTL6cDOuIrS3PquVla1Js6cgxQckZ"\
     "\nbwIDAQAB"\
     "\n-----END PUBLIC KEY-----";
-    */
+#endif
+
     static unsigned char crt_pub_key[512];
     static int crt_pub_key_len = 0;
     static unsigned char *key;
@@ -326,7 +322,7 @@ int digver (const char *filename)
     //static unsigned char user_id[ELF_SIG_USER_ID_LEN];//签名
     //static unsigned int user_id_len = ELF_SIG_USER_ID_LEN;//签名长度
     int i;
-    printk("hash_count = %d", hash_count);
+    //printk("hash_count = %d", hash_count);
     thefile = fopen(filename, O_RDONLY, 0);
     if (thefile == NULL){
         pr_warn("file not exit");
@@ -342,14 +338,12 @@ int digver (const char *filename)
         ELFMAGIC[2] != ELFMAG2 || 
         ELFMAGIC[3] != ELFMAG3){
         fclose(thefile);
-        //pr_warn("not is a elf file");
         return OTHERERR;
     }
 
 	//1. 读取文件头
 	if (read_elf_header(thefile, &ehdr) == FALSE){
         fclose(thefile);
-        //pr_warn("1");
 		return OTHERERR;
 	}
 
@@ -359,27 +353,28 @@ int digver (const char *filename)
 		return OTHERERR;
 	}
 
-    if (get_sig_buff(thefile, ehdr, shdrs, sh_sig_buff, &sh_sig_buff_size) == FALSE){
-		return NOSIGERR;
-	}
-    //printk("%d",ehdr.e_shstrndx);
-
 	//3. 获取text节数据
 	if (get_text_data(thefile, ehdr, shdrs, sha256_h) == FALSE){
 		return OTHERERR;
 	}
-
+    //4. 双hash校验
     if (hash_check(sha256_h) == TRUE){
-        printk("命中hash缓存");
+        //printk("命中hash缓存");
         goto success;
     }
 
+    //5. 获取密钥节内容
+    if (get_sig_buff(thefile, ehdr, shdrs, sh_sig_buff, &sh_sig_buff_size) == FALSE){
+		return NOSIGERR;
+	}
+    //5. 获取密文内容
     if (get_encrypto(encrypto, sh_sig_buff, sh_sig_buff_size) == FALSE){
         return OTHERERR;
     }
 
-    printk("sh_sig_buff_size is %d ", sh_sig_buff_size);
+    //printk("sh_sig_buff_size is %d ", sh_sig_buff_size);
     if (sh_sig_buff_size > 256){//如果大于256字节说明节区包含了一张数字证书的内容
+        //数字证书检查并且获取密钥，成功返回密钥长度，失败返回0
         crt_pub_key_len = checkcrt(sh_sig_buff, sh_sig_buff_size, crt_pub_key);
         if (crt_pub_key_len == 0){
             return CRTERR;
@@ -388,6 +383,7 @@ int digver (const char *filename)
             keylen = crt_pub_key_len;
         }
     } else {
+        //没有数字证书采用默认的密钥
         key = def_pub_key;
         keylen = def_pub_key_len;
     }
@@ -398,6 +394,7 @@ int digver (const char *filename)
         //pr_warn("5");
         return OTHERERR;
 	}
+    
     memcpy(sha256_hs, m+256-32, 32);
     /*hexdump(sha256_hs, 32);
     hexdump(sha256_h, 32);*/

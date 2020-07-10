@@ -1,9 +1,4 @@
-/*
- * rdx_crypto.c
- *
- *  Created on: 30 may 2018.
- *      Author: alekseym
- */
+
 #include <linux/kernel.h>
 #include <linux/scatterlist.h>
 #include <crypto/akcipher.h>

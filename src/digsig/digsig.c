@@ -1,10 +1,3 @@
-/*************************************************************************
-	> File Name: digsig.c
-	> Author: xmb
-	> Mail: 1785175681@qq.com 
-	> Created Time: 2020年04月16日 星期四 21时22分10秒
- ************************************************************************/
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -22,9 +15,10 @@
 #include "rsasig/md5.h"
 #include "rsasig/rsasig.h"
 
-/* A simple error-handling function. FALSE is always returned for the
- * convenience of the caller.
- */
+#include "digsig/hexdump.h"
+
+#define	ferr(msg) (err(ferror(thefile) ? strerror(errno) : (msg)))
+
 static int err(char const *errmsg)
 {
 	fprintf(stderr, "%s: %s: %s\n", theprogram, thefilename, errmsg);
@@ -34,10 +28,10 @@ static int err(char const *errmsg)
 static int read_elf_header(void)
 {
 	if (elfrw_read_Ehdr(thefile, &ehdr) != 1)
-		return ferr("not a valid ELF file");
+		return ferr("非法ELF文件头");
 
 	if (ehdr.e_type != ET_EXEC && ehdr.e_type != ET_DYN)
-		return err("not an executable or shared-object library.");
+		return err("非可执行文件");
 
 	get_memory_size();
 	return TRUE;
@@ -58,10 +52,10 @@ static int read_shdr_table(void)
 
 	if ((shdrs = realloc(shdrs, (ehdr.e_shnum+1) * sizeof *shdrs)) == FALSE)
 		return err("内存分配失败！\n");
-	//printf ("读取节头表 %u \n",(unsigned int)shdrs);
+
 	if (elfrw_read_Shdrs(thefile, shdrs, ehdr.e_shnum) != ehdr.e_shnum){
 		realloc(shdrs, 0);//释放内存
-		return ferr("missing or incomplete program section header table.");
+		return ferr("程序节头表丢失或不完整。");
 	}
 	
 	if (analy_shstrtable() == FALSE){
@@ -290,12 +284,11 @@ static int get_text_data(void)
 	char *sh_name_temp = realloc(0, shdrs[shstrndx].sh_size);
 	int count = ehdr.e_shnum;
 	fpos_t ps;
-	memset(sh_name_temp, 0, shdrs[shstrndx].sh_size);
 	//printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
 	if (sh_name_temp == NULL || count == -1){
-		return err("elf_sm2_sign err");
+		return err("get_text_data err");
 	}
-	
+	memset(sh_name_temp, 0, shdrs[shstrndx].sh_size);
 	fgetpos(thefile, &ps);
 	fseek(thefile, shdrs[shstrndx].sh_offset, SEEK_SET);
 
@@ -347,16 +340,19 @@ static int elf_text_sign(void)
     if (!crt_flag){//公私钥模式下使用默认的私钥进行加密
         pem_privkey_len = strlen(def_pem_privkey);
         memcpy(pem_privkey, def_pem_privkey, pem_privkey_len);
-        printf ("%s\n",pem_privkey);
+        printf ("默认私钥为：\n%s\n",pem_privkey);
     }else{
 
         FILE* privfile = fopen(privatefilename, "r");
+        if (privfile == NULL){
+            return FALSE;
+        }
         fseek(privfile, 0, SEEK_END);
         pem_privkey_len = ftell(privfile);
         fseek(privfile, 0, SEEK_SET);
         fread(pem_privkey, pem_privkey_len, 1, privfile);
         pem_privkey[pem_privkey_len] = 0;
-        printf("%s",pem_privkey);
+        printf("输入私钥为：\n%s",pem_privkey);
         fclose(privfile);
         /*如果密钥生成失败，则使用默认密钥 */
         /*if (Generate_RSA_Keys(2048, pem_pubkey, pem_privkey)){
@@ -400,13 +396,15 @@ static int elf_text_sign(void)
         printf ("%d\n\n", sh_sig_buff_size);
         sh_sig_buff_size += crtfile_len-25-27;
         printf ("%d\n\n", sh_sig_buff_size);
-        */
+        
         printf ("\n\ntbuf = \n %s \n\n", tbuff);
-        printf ("crtfile_len %d\n\n", crtfile_len);
+        printf ("crtfile_len %ld \n\n", crtfile_len);
+        */
         memcpy(sh_sig_buff+sh_sig_buff_size, tbuff, crtfile_len);
-        printf ("%d\n\n", sh_sig_buff_size);
+        //printf ("%d\n\n", sh_sig_buff_size);
         sh_sig_buff_size += crtfile_len;
-        printf ("%d\n\n", sh_sig_buff_size);
+        //printf ("%d\n\n", sh_sig_buff_size);
+        
     }
 
     return TRUE;
@@ -419,7 +417,7 @@ static int check_arg(char *execname)
         return FALSE;
     }
     if (help_flag){
-        printf("%s 帮助信息1\n", execname);
+        printf("%s ：digsig -[opt] filename\n", execname);
         return FALSE;
     }
     if (rsakey_flag && crt_flag){
@@ -496,7 +494,6 @@ int main(int argc, char *argv[])
         return 0;
     }
     //return 0;
-	printf ("程序开始\n");
 
 	thefile = fopen(thefilename,"rb+");
 	
@@ -543,7 +540,9 @@ int main(int argc, char *argv[])
 	if (insert_sh_sig() == FALSE){
 		goto er;
     }
-
+    printf ("%s 加密成功\n", thefilename);
+    printf ("密钥节内容为：\n");
+    hexdump(sh_sig_buff, sh_sig_buff_size);
 er:
 	realloc(elf_text_data, 0);
 	realloc(shdrs, 0);

@@ -1,1 +1,0 @@
-cmd_/home/xmb/digsign/RSATEST/lk_crypto_test/kern/crypto_test.o := ld -m elf_x86_64 -z max-page-size=0x200000   -r -o /home/xmb/digsign/RSATEST/lk_crypto_test/kern/crypto_test.o /home/xmb/digsign/RSATEST/lk_crypto_test/kern/main.o /home/xmb/digsign/RSATEST/lk_crypto_test/kern/rdx_crypto.o 

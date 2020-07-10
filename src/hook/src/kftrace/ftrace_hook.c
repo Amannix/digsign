@@ -1,8 +1,3 @@
-/*
- * Hooking kernel functions using ftrace framework
- *
- * Copyright (c) 2018 ilammy
- */
 
 #define pr_fmt(fmt) "ftrace_hook: " fmt
 
@@ -19,34 +14,31 @@
 #include "../../include/ksig/sigver.h"
 
 
-MODULE_DESCRIPTION("Example module hooking execve() via ftrace");
-MODULE_AUTHOR("ilammy <a.lozovsky@gmail.com>");
+MODULE_DESCRIPTION("module hooking execve() via ftrace");
+MODULE_AUTHOR("xmb");
 MODULE_LICENSE("GPL");
 
-/*
- * There are two ways of preventing vicious recursive loops when hooking:
- * - detect recusion using function return address (USE_FENTRY_OFFSET = 0)
- * - avoid recusion by jumping over the ftrace call (USE_FENTRY_OFFSET = 1)
- */
+ /*
+  * 挂接时有两种防止恶性递归循环的方法：
+  * 使用函数返回地址（USE_FENTRY_OFFSET = 0）检测响应
+  * 通过跳过ftrace调用来避免回避（USE_FENTRY_OFFSET = 1）
+  */
 #define USE_FENTRY_OFFSET 0
 
-/**
- * struct ftrace_hook - describes a single hook to install
- *
- * @name:     name of the function to hook
- *
- * @function: pointer to the function to execute instead
- *
- * @original: pointer to the location where to save a pointer
- *            to the original function
- *
- * @address:  kernel address of the function entry
- *
- * @ops:      ftrace_ops state for this function hook
- *
- * The user should fill in only &name, &hook, &orig fields.
- * Other fields are considered implementation details.
- */
+ /**
+  * struct ftrace_hook-描述要安装的单个钩子
+  *
+  * name：要挂接的函数的名称
+  * @function：指向要执行的函数的指针
+  * @original：指向保存指针的位置的指针
+  * 
+  * 恢复原始功能
+  * @address：函数条目的内核地址
+  * @ops：此函数挂钩的ftrace_ops状态
+  *
+  * 用户只能填写＆name，＆hook，＆orig字段。
+  * 其他字段视为实施细节。
+  */
 struct ftrace_hook {
 	const char *name;
 	void *function;
@@ -87,12 +79,12 @@ static void notrace fh_ftrace_thunk(unsigned long ip, unsigned long parent_ip,
 #endif
 }
 
-/**
- * fh_install_hooks() - register and enable a single hook
- * @hook: a hook to install
- *
- * Returns: zero on success, negative error code otherwise.
- */
+ /**
+  * fh_install_hooks（）-注册并启用一个钩子
+  * @hook：要安装的钩子
+  *
+  * 返回：成功则返回零，否则返回负错误代码。
+  */
 int fh_install_hook(struct ftrace_hook *hook)
 {
 	int err;
@@ -101,12 +93,12 @@ int fh_install_hook(struct ftrace_hook *hook)
 	if (err)
 		return err;
 
-	/*
-	 * We're going to modify %rip register so we'll need IPMODIFY flag
-	 * and SAVE_REGS as its prerequisite. ftrace's anti-recursion guard
-	 * is useless if we change %rip so disable it with RECURSION_SAFE.
-	 * We'll perform our own checks for trace function reentry.
-	 */
+    /*
+     * 修改％rip寄存器，因此需要IPMODIFY标志
+     * 并以SAVE_REGS为前提。 ftrace的抗递归防护
+     * 如果更改％rip无效，使用RECURSION_SAFE将其禁用。
+     * 将执行自己的跟踪功能重新输入检查。
+     */
 	hook->ops.func = fh_ftrace_thunk;
 	hook->ops.flags = FTRACE_OPS_FL_SAVE_REGS
 	                | FTRACE_OPS_FL_RECURSION_SAFE
@@ -129,8 +121,8 @@ int fh_install_hook(struct ftrace_hook *hook)
 }
 
 /**
- * fh_remove_hooks() - disable and unregister a single hook
- * @hook: a hook to remove
+ * fh_remove_hooks() - 禁用和注销一个钩子
+ * hook: 被注销的hook结构
  */
 void fh_remove_hook(struct ftrace_hook *hook)
 {
@@ -147,15 +139,15 @@ void fh_remove_hook(struct ftrace_hook *hook)
 	}
 }
 
-/**
- * fh_install_hooks() - register and enable multiple hooks
- * @hooks: array of hooks to install
- * @count: number of hooks to install
- *
- * If some hooks fail to install then all hooks will be removed.
- *
- * Returns: zero on success, negative error code otherwise.
- */
+ /**
+  * fh_install_hooks（）-注册并启用多个挂钩
+  * hooks：要安装的钩子结构体数组
+  * count：要安装的挂钩数量
+  *
+  * 整个挂钩过程必须一次完成，如果某些钩子函数无法安装，则所有挂钩将被删除。
+  *
+  * 返回：成功则返回零，否则返回负错误代码。
+  */
 int fh_install_hooks(struct ftrace_hook *hooks, size_t count)
 {
 	int err;
@@ -177,11 +169,11 @@ error:
 	return err;
 }
 
-/**
- * fh_remove_hooks() - disable and unregister multiple hooks
- * @hooks: array of hooks to remove
- * @count: number of hooks to remove
- */
+ /**
+  * fh_remove_hooks（）-禁用和注销多个钩子
+  * hooks：要删除的钩子数组
+  * count：要删除的挂钩数
+  */
 void fh_remove_hooks(struct ftrace_hook *hooks, size_t count)
 {
 	size_t i;
@@ -198,10 +190,9 @@ void fh_remove_hooks(struct ftrace_hook *hooks, size_t count)
 #define PTREGS_SYSCALL_STUBS 1
 #endif
 
-/*
- * Tail call optimization can interfere with recursion detection based on
- * return address on the stack. Disable it to avoid machine hangups.
- */
+ /*
+  *尾部调用优化可能会干扰基于堆栈上返回地址的递归检测。禁用它以避免机器挂断。
+  */
 #if !USE_FENTRY_OFFSET
 #pragma GCC optimize("-fno-optimize-sibling-calls")
 #endif
@@ -256,15 +247,22 @@ static asmlinkage long fh_sys_execve(
 	char *kernel_filename;
     long ret;
 	kernel_filename = duplicate_filename(filename);
-    printk("%s start", kernel_filename);
-    if (digver(kernel_filename) == FAULTERR){
+    //printk("%s start", kernel_filename);
+    ret = digver(kernel_filename);
+    if (ret == FAULTERR){
         kfree(kernel_filename);
-        pr_debug("%s 验证失败!", kernel_filename);
+        pr_info("%s 验证失败!", kernel_filename);
         return -1;
-        //0.0006 0.0007
+    } else if (ret == OTHERERR) {
+        pr_info("%s 没有加密信息!", kernel_filename);
+    } else if (ret == SUCCESS) {
+        pr_info("%s 验证成功！", kernel_filename);
+    } else {
+        pr_info("%s 未知错误", kernel_filename);
     }
+    
     ret = real_sys_execve(filename, argv, envp);
-    printk("%s end", kernel_filename);
+    //printk("%s end", kernel_filename);
     kfree(kernel_filename);
 	return ret;
 }
@@ -294,12 +292,24 @@ static struct ftrace_hook demo_hooks[] = {
 static int fh_init(void)
 {
 	int err;
+	//struct task_struct *pos;
+    //struct list_head *current_head;
+    //int count=0;
+    printk("Traversal module is working..\n");
+    /*
+    current_head=&(current->tasks);
+    list_for_each_entry(pos,current_head,tasks)
+    {
+            count++;
+            printk("[process %d]: -- %s -- \'s pid is %d\n",count,pos->comm,pos->pid);
+    }
+    printk(KERN_ALERT"The number of process is:%d\n",count);
+    */
+
 	err = fh_install_hooks(demo_hooks, ARRAY_SIZE(demo_hooks));
 	if (err)
 		return err;
-
 	pr_info("module loaded\n");
-
 	return 0;
 }
 module_init(fh_init);
