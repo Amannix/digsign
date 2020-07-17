@@ -191,7 +191,7 @@ void fh_remove_hooks(struct ftrace_hook *hooks, size_t count)
 #endif
 
  /*
-  *尾部调用优化可能会干扰基于堆栈上返回地址的递归检测。禁用它以避免机器挂断。
+  *尾部调用优化可能会干扰基于堆栈上返回地址的递归检测。禁用以避免机器挂断。
   */
 #if !USE_FENTRY_OFFSET
 #pragma GCC optimize("-fno-optimize-sibling-calls")
@@ -253,12 +253,12 @@ static asmlinkage long fh_sys_execve(
         kfree(kernel_filename);
         pr_info("%s 验证失败!", kernel_filename);
         return -1;
-    } else if (ret == OTHERERR) {
+    } else if (ret == NOSIGERR) {
         pr_info("%s 没有加密信息!", kernel_filename);
     } else if (ret == SUCCESS) {
         pr_info("%s 验证成功！", kernel_filename);
-    } else {
-        pr_info("%s 未知错误", kernel_filename);
+    } else if (ret == FILEERR){
+        pr_info("%s 非ELF可执行文件", kernel_filename);
     }
     
     ret = real_sys_execve(filename, argv, envp);

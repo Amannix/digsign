@@ -11,11 +11,15 @@ digver:elfrw/libelfrw.a sm2sig/libsm2sig.a
 	$(CC) $(CFLAGS) -o digver digver.c -lelfrw -lsm2sig -lssl -lcrypto -lpthread -ldl
 
 digsig:elfrw/libelfrw.a rsasig/librsasig.a
-	$(CC) $(CFLAGS) -o digsig digsig.c  hexdump.c -lelfrw -lrsasig -lssl -lcrypto -lpthread -ldl 
+	$(CC) $(CFLAGS) -o digsig digsig.c  hexdump.c -lelfrw -lrsasig -lcrt -lssl -lcrypto -lpthread -ldl 
 
 elfrw/libelfrw.a:
 	$(MAKE) -C ../elfrw libelfrw.a
 	mv ../elfrw/libelfrw.a ../../lib
+
+crt/libcrt.a:
+	$(MAKE) -C ../crt libcrt.a
+	mv ../crt/libcrt.a ../../lib
 
 sm2sig/libsm2sig.a:
 	$(MAKE) -C ../sm2sig libsm2sig.a

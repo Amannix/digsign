@@ -12,7 +12,7 @@ static int padding = RSA_PKCS1_PADDING;
 RSA * createRSA(unsigned char * key,int public)
 {
     RSA *rsa= NULL;
-    BIO *keybio ;
+    BIO *keybio;
     keybio = BIO_new_mem_buf(key, -1);
     if (keybio==NULL){
         printf( "Failed to create key BIO");

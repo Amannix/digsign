@@ -1,10 +1,9 @@
 /*base64.c*/  
 #include "rsasig/base64.h"
 #include <stdio.h>
-unsigned char *base64_encode(unsigned char *str)
+unsigned char *base64_encode(unsigned char *str,int str_len)
 {  
-    long len;  
-    long str_len = 0;  
+    long len;
     unsigned char *res;  
     int i,j;  
 //定义base64编码表
@@ -12,12 +11,10 @@ unsigned char *base64_encode(unsigned char *str)
     memcpy(base64_table, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", 64);
 //计算经过base64编码后的字符串长度  
     
-    str_len=strlen((const char *)str);
-    
     if(str_len % 3 == 0)  
         len=str_len/3*4;  
     else  
-        len=(str_len/3+1)*4;  
+        len=(str_len/3+1)*4;
   
     res=malloc(sizeof(unsigned char)*len+1);  
     res[len]='\0';  

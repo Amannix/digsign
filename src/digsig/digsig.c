@@ -14,8 +14,11 @@
 #include "rsasig/sha256.h"
 #include "rsasig/md5.h"
 #include "rsasig/rsasig.h"
+#include "rsasig/base64.h"
 
 #include "digsig/hexdump.h"
+#include "crt/x509.h"
+#include "crt/x509_crt.h"
 
 #define	ferr(msg) (err(ferror(thefile) ? strerror(errno) : (msg)))
 
@@ -284,7 +287,7 @@ static int get_text_data(void)
 	char *sh_name_temp = realloc(0, shdrs[shstrndx].sh_size);
 	int count = ehdr.e_shnum;
 	fpos_t ps;
-	//printf ("==========%lx %lx\n",shdrs[shstrndx].sh_size, shdrs[shstrndx].sh_offset);
+
 	if (sh_name_temp == NULL || count == -1){
 		return err("get_text_data err");
 	}
@@ -293,31 +296,27 @@ static int get_text_data(void)
 	fseek(thefile, shdrs[shstrndx].sh_offset, SEEK_SET);
 
 	fread(sh_name_temp, shdrs[shstrndx].sh_size, 1, thefile);
-	/*for (i = 0;i < shdrs[shstrndx].sh_size; ++i){
-		printf ("%x ", *(sh_name_temp+i));
-	}*/
-	//printf ("\n");
-	
+
 	for (i = 0;i < count; ++i){
 		int name = shdrs[i].sh_name;
-		//printf ("%d %s\n",name, &sh_name_temp[name]);
+
 		if (strcmp(".text", &sh_name_temp[name]) == 0){
-            unsigned long ssize = shdrs[i].sh_size > 1024*1024 ? 1024*1024 : shdrs[i].sh_size;
+            unsigned long ssize = shdrs[i].sh_size > 256*1024 ? 256*1024 : shdrs[i].sh_size;
 			elf_text_data = realloc(elf_text_data, ssize);
 			if (elf_text_data == NULL){
 				printf ("内存分配失败");
 				goto er;
 			}
-			//printf ("%lx\n",shdrs[i].sh_offset);
+
 			fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
 			fread(elf_text_data, ssize, 1, thefile);
-			//printf ("%lx\n",ssize);
+
 			elf_text_data_len = ssize;
-			/*for (int j = 0;j < shdrs[i].sh_size; ++j){
-				printf ("0x%02x",elf_text_data[j]);
-			}*/
-			break;
 		}
+        if (strcmp(".digsig", &sh_name_temp[name]) == 0){
+            printf ("digsig节已经存在，请重新编译可执行文件后再次进行签名\n");
+            goto er;
+        }
 	}
 
 	fsetpos(thefile, &ps);
@@ -342,7 +341,6 @@ static int elf_text_sign(void)
         memcpy(pem_privkey, def_pem_privkey, pem_privkey_len);
         printf ("默认私钥为：\n%s\n",pem_privkey);
     }else{
-
         FILE* privfile = fopen(privatefilename, "r");
         if (privfile == NULL){
             return FALSE;
@@ -390,6 +388,10 @@ static int elf_text_sign(void)
         fseek(crtfile, 0, SEEK_SET);
         fread(tbuff, crtfile_len, 1, crtfile);
         fclose(crtfile);
+        if (check_crt(tbuff, crtfile_len, pem_privkey) == FALSE){
+            printf ("请输入正确的私钥文件以及证书文件\n");
+            return FALSE;
+        }
         /*printf("\n\n%s\n\n", tbuff);
         printf ("\n\n%d\n", crtfile_len-26-28);
         memcpy(sh_sig_buff+sh_sig_buff_size, tbuff+28, crtfile_len-26-28);
@@ -434,6 +436,108 @@ static int check_arg(char *execname)
     }
 
     return TRUE;
+}
+static int x509_crt_get_id_pubkey(const unsigned char *buf, size_t buflen, 
+	unsigned char *pkey, unsigned int *pkeylen, unsigned char *id, unsigned int *idlen)
+{
+	mbedtls_x509_crt cert;
+	int ret;
+
+	mbedtls_x509_crt_init(&cert);
+
+    
+	/* parse certificate derectly */
+	ret = mbedtls_x509_crt_parse(&cert, buf, buflen);
+    if(ret != 0) {
+        goto exit;
+    }
+	if (pkey && pkeylen) {
+		*pkeylen = cert.pk.pk_len - 1;
+		memcpy(pkey, (unsigned char *)(cert.pk.pk_ctx + 1), cert.pk.pk_len);
+	}
+	if (id && idlen) {
+		*idlen = cert.serial.len;
+		memcpy(id, cert.serial.p, cert.serial.len);
+	}
+exit:
+	mbedtls_x509_crt_free(&cert);
+	return ret;
+}
+
+static int check_crt(char *crt, int crtfile_len, char *key)
+{
+	unsigned char temp_pub_key[1024] = {0x30};
+	unsigned int temp_pub_keylen;
+	unsigned char id[512];
+	unsigned int idlen;
+    unsigned char asciicrt[1024];
+    int asciicrt_len = 0;
+	int ret,i;
+    unsigned char data[6];
+	unsigned char encrypted[512] = {0};
+	int encrypted_length;
+	unsigned char decrypted[512];
+	int decrypted_length;
+    char *temp_pem_key, pem_key[2048];
+	char *pub_begin = "-----BEGIN PUBLIC KEY-----\n";
+	char *pub_end = "-----END PUBLIC KEY-----\n";
+    int index = 0;
+
+    memcpy(data, "12345", 5);
+
+    for (i = 0;i < crtfile_len; ++i){
+        if (crt[i] == 0x0A){
+            asciicrt[asciicrt_len++] = 0x0D;
+        }
+        asciicrt[asciicrt_len++] = crt[i];
+    }
+
+    asciicrt[asciicrt_len++] = 0;
+
+    memcpy(temp_pub_key, "\x30\x82\x01\x22\x30\x0D\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x01\x01\x05\x00\x03\x82\x01\x0F\x00\x30", 25);
+
+	ret = x509_crt_get_id_pubkey((const unsigned char *)asciicrt, asciicrt_len ,\
+     temp_pub_key+25, &temp_pub_keylen, id, &idlen);
+
+    temp_pub_keylen += 25;
+    
+	if (ret) {
+        printf ("\n证书解析失败\n");
+        return FALSE;
+	}
+    printf ("\n证书解析成功\n");
+    printf ("\n证书公钥如下\n");
+    hexdump(temp_pub_key, temp_pub_keylen);
+
+    temp_pem_key = (char *)base64_encode(temp_pub_key, temp_pub_keylen);
+
+	encrypted_length = private_encrypt(data,5, (unsigned char *)key, (unsigned char *)encrypted);
+    memcpy(pem_key, pub_begin, strlen(pub_begin));
+
+    index = strlen(pub_begin);
+    for (unsigned int i = 0;i < strlen(temp_pem_key); ++i){
+        pem_key[index++] = temp_pem_key[i];
+        if ((i+1) % 64 == 0){pem_key[index++] = '\n';}
+    }
+    pem_key[index++] = '\n';
+    memcpy(pem_key+index, pub_end, strlen(pub_end));
+    
+    
+
+	decrypted_length = public_decrypt(encrypted ,encrypted_length ,(unsigned char *)pem_key, decrypted);
+    if (decrypted_length == -1){
+        printf("证书公私钥校验失败\n");
+        return FALSE;
+    }
+    for (i = 0;i < decrypted_length; ++i){
+        if (data[i] != decrypted[i]){
+            free(temp_pem_key);
+            printf("证书公私钥校验失败\n");
+            return FALSE;
+        }
+    }
+    free(temp_pem_key);
+	return TRUE;
 }
 
 /* main() loops over the cmdline arguments, leaving all the real work

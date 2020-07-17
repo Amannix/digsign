@@ -2,21 +2,13 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Ielfrw -g
 
-all: clean hello digsig
+all: clean digsig
 
-digsig:elfrw/libelfrw.a sm2sig/libsm2sig.a
-	$(CC) $(CFLAGS) digsig.c elfrw/libelfrw.a sm2sig/libsm2sig.a 
-hello:
-	$(CC) -o hello test.c
-
-elfrw/libelfrw.a:
-	$(MAKE) -C elfrw libelfrw.a
-
-sm2sig/libsm2sig.a:
-	$(MAKE) -C sm2sig libsm2sig.a
+digsig:
+	$(MAKE) -C ./src/digsig/
 
 clean:
-	rm -f digsig hello
+	rm -f digsig hello modelf hook.ko
 allclean:
-	rm -f digsig hello
-	$(MAKE) clean
+	rm -f digsig hello modelf hook.ko
+	$(MAKE) -C ./src/digsig/ clean

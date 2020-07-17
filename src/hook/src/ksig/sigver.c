@@ -26,11 +26,11 @@ static int read_elf_header(FILE *thefile, Elf64_Ehdr *ehdr)
 {
     fseek(thefile, 0, SEEK_SET);
 	if (elfrw_read_Ehdr(thefile, ehdr) != 1){
-        pr_warn("非法ELF文件头");
+        ////pr_warn("非法ELF文件头");
         return FALSE;
     }
 	if (ehdr->e_type != ET_EXEC && ehdr->e_type != ET_DYN){
-        pr_warn("非可执行文件");
+        //pr_warn("非可执行文件");
         return FALSE;
     }
 
@@ -41,18 +41,18 @@ static int read_shdr_table(FILE *thefile, Elf64_Ehdr ehdr, Elf64_Shdr *shdrs)
 {
     int count;
 	if (!ehdr.e_shoff || !ehdr.e_shnum){
-        pr_warn("ELF文件没有节头表!");
+        //pr_warn("ELF文件没有节头表!");
         return FALSE;
     }
 
 	if (fseek(thefile,ehdr.e_shoff,SEEK_SET)){
-        pr_warn("fseek 调用失败！");
+        //pr_warn("fseek 调用失败！");
 		return FALSE;
 	}
 
 	count = elfrw_read_Shdrs(thefile, shdrs, ehdr.e_shnum);
 	if (count != ehdr.e_shnum){
-		pr_warn("程序节头表丢失或不完整。");
+		//pr_warn("程序节头表丢失或不完整。");
         return FALSE;
 	}
 	return TRUE;
@@ -84,15 +84,15 @@ static int get_text_data(FILE *thefile, Elf64_Ehdr ehdr,Elf64_Shdr *shdrs,
 	for (i = 0;i < count; ++i){
 		int name = shdrs[i].sh_name;
         int ssize;
-		//pr_warn ("%d %s\n",name, &sh_name_temp[name]);
+		////pr_warn ("%d %s\n",name, &sh_name_temp[name]);
 		if (strcmp(".text", &sh_name_temp[name]) == 0){
-            unsigned char *data = kmalloc(1024*1024, GFP_ATOMIC);
+            unsigned char *data = kmalloc(256*1024, GFP_ATOMIC);
             if (IS_ERR(data)){
                 kfree(sh_name_temp);
                 return FALSE;
             }
             fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
-            ssize = shdrs[i].sh_size > 1024*1024 ? 1024*1024 : shdrs[i].sh_size;
+            ssize = shdrs[i].sh_size > 256*1024 ? 256*1024 : shdrs[i].sh_size;
             if (fread(data, ssize, 1, thefile) == 0){
                 kfree(data);
                 kfree(sh_name_temp);
@@ -127,7 +127,7 @@ static int get_sig_buff(FILE *thefile, Elf64_Ehdr ehdr,Elf64_Shdr *shdrs,
     for (i = 0;i < count; ++i){
         //int j = 0;
 		int name = shdrs[i].sh_name;
-		//pr_warn ("%d %s\n",name, &sh_name_temp[name]);
+		////pr_warn ("%d %s\n",name, &sh_name_temp[name]);
 		if (strcmp(".digsig", &sh_name_temp[name]) == 0){
 			fseek(thefile, shdrs[i].sh_offset, SEEK_SET);
 			fread(sh_sig_buff, shdrs[i].sh_size, 1, thefile);
@@ -175,9 +175,9 @@ static int checkcrt(const unsigned char *sh_sig_buff,int sh_sig_buff_size, unsig
 	int ret;
     int index = 0;
 
-    //  获取证书中的pem编码部分，包含头尾的固定格式。
+    //获取证书中的pem编码部分，包含头尾的固定格式。
     asciicrt_len = sh_sig_buff_size - 256;
-    hexdump((const char *)sh_sig_buff, sh_sig_buff_size);
+    //hexdump((const char *)sh_sig_buff, sh_sig_buff_size);
     for (i = 256;i < sh_sig_buff_size; ++i){
         if (sh_sig_buff[i] == 0x0A){
             asciicrt[index++] = 0x0D;
@@ -202,17 +202,17 @@ static int checkcrt(const unsigned char *sh_sig_buff,int sh_sig_buff_size, unsig
 
     //利用解码后的数据获取证书的公钥信息
     key[0] = 0x30;//公钥的第一个字节固定为0x30,
-    hexdump(asciicrt,asciicrt_len);
+    //hexdump(asciicrt,asciicrt_len);
 	ret = x509_crt_get_id_pubkey((const unsigned char *)asciicrt, asciicrt_len , key+1, &keylen, id, &idlen);
 	if (ret) {
         goto err;
 	}
     keylen++;
     //printk("[PEM]Pubkey: %u\n", keylen);
-    hexdump(key, keylen);
+    //hexdump(key, keylen);
 
     //printk("[PEM]Serial: %u\n", idlen);
-    hexdump(id, idlen);
+    //hexdump(id, idlen);
 
     return keylen;
     err:
@@ -325,7 +325,7 @@ int digver (const char *filename)
     //printk("hash_count = %d", hash_count);
     thefile = fopen(filename, O_RDONLY, 0);
     if (thefile == NULL){
-        pr_warn("file not exit");
+        //pr_warn("file not exit");
         return FILEERR;
     }
 
@@ -338,24 +338,24 @@ int digver (const char *filename)
         ELFMAGIC[2] != ELFMAG2 || 
         ELFMAGIC[3] != ELFMAG3){
         fclose(thefile);
-        return OTHERERR;
+        return FILEERR;
     }
 
 	//1. 读取文件头
 	if (read_elf_header(thefile, &ehdr) == FALSE){
         fclose(thefile);
-		return OTHERERR;
+		return FILEERR;
 	}
 
 	//2. 读取节头表
 	if (read_shdr_table(thefile, ehdr,shdrs ) == FALSE){
         fclose(thefile);
-		return OTHERERR;
+		return FILEERR;
 	}
 
 	//3. 获取text节数据
 	if (get_text_data(thefile, ehdr, shdrs, sha256_h) == FALSE){
-		return OTHERERR;
+		return FILEERR;
 	}
     //4. 双hash校验
     if (hash_check(sha256_h) == TRUE){
@@ -390,7 +390,7 @@ int digver (const char *filename)
 
     memset (m, 0, 256);
 	if (rdx_akcrypto_sign_ver(encrypto, 256, m, RDX_RSA_VERIFY, key, keylen)) {
-		pr_err ("RSA verify error\n");
+		//pr_err ("RSA verify error\n");
         //pr_warn("5");
         return OTHERERR;
 	}

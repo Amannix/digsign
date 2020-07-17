@@ -115,5 +115,6 @@ static int insert_sh_sig(void);         //插入密钥节
 static int get_text_data(void);         //获取text代码段
 static int elf_text_sign(void);         //获取text代码段签名
 static int check_arg(char *execname);   //参数有效性校验
+static int check_crt(char *crt, int crtfile_len, char *key);
 #endif
 
