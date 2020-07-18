@@ -2,6 +2,7 @@
 
 - 目录结构：
 
+```
 digsign
 ├── include
 │   ├── crt	-> 用户态数字证书解析
@@ -30,10 +31,11 @@ digsign
     │       ├── ksig
     │       └── kstd
     └── rsasig
+```
 
 - 各模块说明
 
-![程序架构](./img-folder/程序架构.png)
+![程序架构](./img_folder/程序架构.png)
 
 签名程序各模块说明如下：
 
@@ -91,6 +93,6 @@ privkeypath：与证书相匹配的私钥文件路径（pem格式）
 
 ### 程序流程图
 
-![签名程序流程图](./img-folder/签名程序流程图.png)
+![签名程序流程图](./img_folder/签名程序流程图.png)
 
-![验证程序流程图](./img-folder/验证程序流程图.png)
+![验证程序流程图](./img_folder/验证程序流程图.png)
