@@ -53,7 +53,7 @@ digsign
 - 签名程序编译方法：
 
 ```shell
-cd .digsign/src/dingsig
+cd ./src/dingsig
 make
 ```
 之后可在.digsign/src/dingsig目录下看到digsig程序。
@@ -61,7 +61,7 @@ make
 - 验证程序编译方法：
 
 ```shell
-cd ./digsig/src/hook
+cd ./src/hook
 make
 ```
 之后可在./digsig/src/hook目录下查看到hook.ko驱动。使用下述命令挂载
