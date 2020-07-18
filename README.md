@@ -53,7 +53,7 @@ digsign
 - 签名程序编译方法：
 
 ```shell
-cd ./src/dingsig
+cd ./src/digsig
 make
 ```
 之后可在.digsign/src/dingsig目录下看到digsig程序。
