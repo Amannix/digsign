@@ -42,6 +42,7 @@ int main(int argc, char **argv)
 	phdrs = (Elf64_Phdr *) &base[ehdr->e_phoff];
 	shdrs = (Elf64_Shdr *) &base[ehdr->e_shoff];
 	orig = ehdr->e_entry;
+			printf("fsie:%d   %08x\n", phdrs[i].p_filesz, ehdr->e_entry);
 
 	for (i = 0; i < ehdr->e_phnum; ++i) {
 		if (phdrs[i].p_type == PT_LOAD && phdrs[i].p_flags == (PF_R|PF_X)) {

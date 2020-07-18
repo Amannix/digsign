@@ -3,7 +3,7 @@
 VPATH := ../../include/crt ../../lib
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -g -I../../include/
+CFLAGS = -g -I../../include/
 
 LIBOBJS = x509.o x509_crt.o pem.o base64.o asn1parse.o
 

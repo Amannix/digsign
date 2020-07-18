@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Wextra -O3 -Wno-unused-result -g -I../../include -L../../lib
+CFLAGS = -Wall -Wextra -O3 -Wno-unused-result -Wunused-parameter -g -I../../include -L../../lib
 
 all: hexdump.o digsig
 
@@ -10,7 +10,7 @@ hexdump.o:
 digver:elfrw/libelfrw.a sm2sig/libsm2sig.a
 	$(CC) $(CFLAGS) -o digver digver.c -lelfrw -lsm2sig -lssl -lcrypto -lpthread -ldl
 
-digsig:elfrw/libelfrw.a rsasig/librsasig.a
+digsig:elfrw/libelfrw.a rsasig/librsasig.a crt/libcrt.a
 	$(CC) $(CFLAGS) -o digsig digsig.c  hexdump.c -lelfrw -lrsasig -lcrt -lssl -lcrypto -lpthread -ldl 
 
 elfrw/libelfrw.a:
@@ -30,7 +30,7 @@ rsasig/librsasig.a:
 	mv ../rsasig/librsasig.a ../../lib
 
 clean:
-	rm -f digsig
+	rm -f *.o digsig
 allclean:
-	rm -f digsig
+	rm -f *.o digsig
 	$(MAKE) clean
