@@ -1,5 +1,9 @@
 ### linux 软件签名保护
 
+- 程序说明
+
+对于Linux下给定的ELF可执行程序开发签名工具对程序的代码段（Load  Segment）首先进行散列后使用RSA2048算法签名。签名数据作为单独的节（Section）附加到原ELF可执行程序的尾部。同时，开发验证软件并加入操作系统，在运行任何ELF可执行程序前对ELF文件进行验证，若ELF可执行程序没有被签名或者签名验证失败则应停止运行本程序，若签名验证成功则可以正常运行。
+
 - 目录结构：
 
 ```
@@ -81,7 +85,7 @@ sudo insmode hook.ko
 execfilepath:可执行文件路径
 
 
-- 使用数字证书模式进行加密
+- 使用数字证书模式进行加密（目前数字证书签名模式仍在测试中，请勿尝试数字证书模式签名）
 
 ```
 ./digsig -in execfilepath -crt crtpath -inkey privkeypath
